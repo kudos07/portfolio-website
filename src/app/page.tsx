@@ -23,7 +23,7 @@ export default function Home() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    let particles: { x: number; y: number; vx: number; vy: number }[] = [];
+    const particles: { x: number; y: number; vx: number; vy: number }[] = [];
     for (let i = 0; i < 60; i++) {
       particles.push({
         x: Math.random() * canvas.width,
