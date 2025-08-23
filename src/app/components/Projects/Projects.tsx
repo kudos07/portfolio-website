@@ -23,8 +23,8 @@ import img5 from "./images/cvb.jpg"
 import img6 from "./images/img1.png"
 import img7 from "./images/img2.png"
 import img8 from "./images/img3.png"
-import img9 from "./images/img4.png"
-import img10 from "./images/img5.png"
+// import img9 from "./images/img4.png"
+// import img10 from "./images/img5.png"
 
 /* ======================= Types ======================= */
 export type ProjectDetails = {
@@ -626,11 +626,10 @@ export default function Projects() {
       </p>
     ) : null}
 
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      {current.details.resultsImages.map((imgSrc, i) => {
-        const src =
-          typeof imgSrc === "string" ? imgSrc : (imgSrc as any).src; // handle StaticImageData
-        const fname = fileNameFromUrl(src) || `result_${i + 1}.png`;
+   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+  {current.details.resultsImages.map((imgSrc: string | StaticImageData, i: number) => {
+    const src = typeof imgSrc === "string" ? imgSrc : imgSrc.src; // no 'any' needed
+    const fname = fileNameFromUrl(src) || `result_${i + 1}.png`;
         return (
           <figure
             key={i}
