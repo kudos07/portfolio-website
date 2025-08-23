@@ -1,103 +1,200 @@
-import Image from "next/image";
+"use client";
+
+import { FaGithub, FaLinkedin, FaInstagram } from "react-icons/fa";
+import { SiKaggle, SiLeetcode } from "react-icons/si";
+import { useEffect, useRef } from "react";
+
+// ⬇️ import your Experience section
+import Experience from "./components/Experience/Experience";
+import Projects from "./components/Projects/Projects";
+import Skills from "./components/Skills/Skills";
+import Contact from "./components/Contact/Contact";
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+  // Animated background
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let particles: { x: number; y: number; vx: number; vy: number }[] = [];
+    for (let i = 0; i < 60; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5,
+      });
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      particles.forEach((p, i) => {
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(0,255,180,0.7)";
+        ctx.fill();
+
+        for (let j = i + 1; j < particles.length; j++) {
+          const p2 = particles[j];
+          const dist = Math.sqrt((p.x - p2.x) ** 2 + (p.y - p2.y) ** 2);
+          if (dist < 120) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = `rgba(0,255,180,${1 - dist / 120})`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        }
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    const handleResize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const scrollToSection = (id: string) => {
+    if (id === "home") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      console.warn(`Section with ID '${id}' not found`);
+    }
+  };
+
+  return (
+    <div className="relative min-h-screen text-white overflow-hidden">
+      {/* Background */}
+      <canvas ref={canvasRef} className="absolute inset-0 z-00" />
+
+      {/* Navbar */}
+      <nav className="flex justify-end space-x-8 p-6 bg-black/70 text-white fixed top-0 left-0 right-0 shadow-md z-20">
+        <button onClick={() => scrollToSection("home")} className="cursor-pointer hover:text-teal-300">Home</button>
+        <button onClick={() => scrollToSection("experience")} className="cursor-pointer hover:text-teal-300">Experience</button>
+        <button onClick={() => scrollToSection("projects")} className="cursor-pointer hover:text-teal-300">Projects</button>
+        <button onClick={() => scrollToSection("skills")} className="cursor-pointer hover:text-teal-300">Skills</button>
+        <button onClick={() => scrollToSection("contact")} className="cursor-pointer hover:text-teal-300">Leave a Message</button>
+      </nav>
+
+      {/* Hero/About Section */}
+      <section
+        id="home"
+        className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 pt-32"
+      >
+        <div className="flex flex-col md:flex-row items-center md:items-start gap-12 max-w-6xl w-full">
+          {/* Left side */}
+          <div className="flex flex-col items-center text-center">
+            <img
+              src="/profile.jpg"
+              alt="Profile Picture"
+              className="w-64 h-64 rounded-full border-4 border-teal-400 shadow-lg object-cover"
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            <h1 className="text-3xl font-bold mt-6">Saransh Surana</h1>
+            <p className="text-lg text-gray-300">
+              Data Science • Machine Learning • Artificial Intelligence
+            </p>
+
+            {/* Social Icons */}
+            <div className="flex space-x-6 mt-4 text-2xl">
+              <a href="https://github.com/kudos07" target="_blank" rel="noopener noreferrer"><FaGithub /></a>
+              <a href="https://linkedin.com/in/saransh-surana" target="_blank" rel="noopener noreferrer"><FaLinkedin /></a>
+              <a href="https://www.instagram.com/saransh_07rm/" target="_blank" rel="noopener noreferrer"><FaInstagram /></a>
+              <a href="https://www.kaggle.com/saranshsurana07" target="_blank" rel="noopener noreferrer"><SiKaggle /></a>
+              <a href="https://leetcode.com/u/etiUzVdrA3/" target="_blank" rel="noopener noreferrer"><SiLeetcode /></a>
+            </div>
+          </div>
+
+          {/* Right side */}
+          <div className="flex-1">
+            <h2 className="text-2xl font-bold mb-4">About Me</h2>
+            <p className="text-gray-200 leading-relaxed">
+              I’m a Data Scientist & AI Engineer with expertise in machine learning,
+              deep learning, and large-scale data systems. My work focuses on
+              building scalable, end-to-end ML solutions that solve real-world problems,
+              from data preprocessing to deployment.
+              <br /><br />
+              I enjoy working at the intersection of AI research and practical applications,
+              turning complex data into insights and intelligent systems. Looking ahead,
+              I aim to contribute to cutting-edge AI innovation, particularly in areas like
+              LLMs, generative AI, and optimization-driven ML systems, while driving
+              measurable business impact.
+            </p>
+            <a
+  href="/resume/saransh_surana_resume.pdf"
+  download
+  className="mt-6 inline-block px-6 py-3 bg-white text-green-800 font-semibold rounded-md shadow hover:bg-gray-200"
+>
+  Download Resume
+</a>
+
+            {/* Interests + Education */}
+            <div className="flex flex-col md:flex-row gap-12 mt-10">
+              <div>
+                <h3 className="text-xl font-semibold mb-3">Interests</h3>
+                <ul className="list-disc list-inside text-gray-200">
+                  <li>Artificial Intelligence</li>
+                  <li>Machine Learning</li>
+                  <li>Deep Learning</li>
+                  <li>Data Engineering</li>
+                  <li>Statistics</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold mb-3">Education</h3>
+                <ul className="list-disc list-inside text-gray-200">
+                  <li>M.S. Data Science – Stony Brook University</li>
+                  <li>B.E. Electronics & Communication – Andhra University</li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </section>
+
+      {/* ⬇️ Experience (flash cards) */}
+      <Experience />
+      <Projects />
+      <Skills />
+      <Contact />
+
+      {/* Other Sections */}
+      {/* <section id="projects" className="min-h-screen pt-32 flex items-center justify-center bg-black bg-opacity-50">
+        <h1 className="text-4xl font-bold">Projects</h1>
+      </section> */}
+
+      {/* <section id="skills" className="min-h-screen pt-32 flex items-center justify-center bg-black bg-opacity-50">
+        <h1 className="text-4xl font-bold">Skills</h1>
+      </section> */}
+
+      {/* <section id="contact" className="min-h-screen pt-32 flex items-center justify-center bg-black bg-opacity-50">
+        <h1 className="text-4xl font-bold">Leave a Message</h1>
+      </section> */}
     </div>
   );
 }

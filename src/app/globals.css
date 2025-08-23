@@ -1,26 +1,108 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Remove custom white background messing things up */
+body {
+  @apply bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white antialiased;
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* 🔥 Blob Animations */
+@keyframes blob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.animate-blob {
+  animation: blob 8s infinite;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+
+@keyframes spinBorder { 
+  to { transform: rotate(360deg); } 
+}
+.animate-border {
+  filter: blur(14px);
+  animation: spinBorder 8s linear infinite;
+}
+
+/* subtle 3D tilt on hover */
+.tilt {
+  transform-style: preserve-3d;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.tilt:hover {
+  transform: perspective(1200px) rotateX(2deg) rotateY(-2deg) translateY(-2px);
+}
+
+.card-border {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(#0b1016, #0b1016) padding-box,
+    linear-gradient(135deg, #14b8a6, #3b82f6, #8b5cf6) border-box;
+  border-radius: 1rem;
+}
+
+.tile {
+  background: rgba(255,255,255,0.05);
+  padding: 20px;
+  border-radius: 1rem;
+  min-height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+  text-align: center;
+}
+.tile:hover {
+  transform: translateY(-4px) perspective(1200px) rotateX(1deg) rotateY(-1deg);
+  background: rgba(255,255,255,0.07);
+  box-shadow: 0 0 24px rgba(20,184,166,.18), 0 0 48px rgba(59,130,246,.15);
+}
+
+.tilt { transform-style: preserve-3d; }
+
+.tile {
+  min-height: 90px;
+  transition: all 0.25s ease;
+}
+
+.bg-mesh {
+  background:
+    radial-gradient(1200px 500px at 10% 20%, rgba(20,184,166,0.12), transparent 60%),
+    radial-gradient(900px 400px at 85% 10%, rgba(99,102,241,0.12), transparent 60%),
+    radial-gradient(700px 450px at 50% 90%, rgba(59,130,246,0.10), transparent 65%),
+    linear-gradient(#0a0f14, #0a0f14); /* base */
+  background-attachment: fixed; /* keeps it steady on scroll */
+}
+
+.card-border-solid {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(#0b1117, #0b1117) padding-box,     /* opaque fill */
+    linear-gradient(135deg, #14b8a6, #3b82f6, #8b5cf6) border-box;
+  border-radius: 1rem;
 }
