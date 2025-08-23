@@ -3,7 +3,7 @@
 import { FaGithub, FaLinkedin, FaInstagram } from "react-icons/fa";
 import { SiKaggle, SiLeetcode } from "react-icons/si";
 import { useEffect, useRef } from "react";
-
+import Image from "next/image";
 // ⬇️ import your Experience section
 import Experience from "./components/Experience/Experience";
 import Projects from "./components/Projects/Projects";
@@ -110,9 +110,11 @@ export default function Home() {
         <div className="flex flex-col md:flex-row items-center md:items-start gap-12 max-w-6xl w-full">
           {/* Left side */}
           <div className="flex flex-col items-center text-center">
-            <img
+            <Image
               src="/profile.jpg"
               alt="Profile Picture"
+              width={256}
+              height={256}
               className="w-64 h-64 rounded-full border-4 border-teal-400 shadow-lg object-cover"
             />
             <h1 className="text-3xl font-bold mt-6">Saransh Surana</h1>
