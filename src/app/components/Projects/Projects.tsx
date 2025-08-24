@@ -138,16 +138,76 @@ const CATEGORIES: Category[] = [
   github: "https://github.com/kudos07/Fraud_detection/tree/main" // replace with your link
 },
    {
-        title: "Customer Segmentation",
-        subtitle: "Behavioral clusters → targeting",
-        bullets: ["KMeans/DBSCAN on RFM; silhouette 0.62.", "+20% CTR in pilot segments."],
-        tech: ["scikit-learn", "pandas", "Plotly"],
-        images: [],
-        github: "https://github.com/yourrepo/segmentation",
-        year: 2023
-      }
-    ]
+  title: "Mall Customer Segmentation",
+  subtitle: "EDA → preprocessing → KMeans (K=5 personas)",
+  tech: ["Python", "Pandas", "NumPy", "Scikit-learn", "Matplotlib", "Seaborn"],
+  images: [img1],
+  details: {
+    problem:
+      "Identify distinct customer segments to support targeted marketing, loyalty programs, and personalized offers instead of treating all shoppers the same.",
+    data:
+      "Kaggle Mall Customers dataset (200 records): Gender, Age, Annual Income (k$), Spending Score (1–100).",
+    approach: [
+      "EDA: distributions of age, income, spending; scatter plots of income vs. spending score.",
+      "Preprocessing: Dropped CustomerID; encoded Gender; scaled numeric features.",
+      "Clustering: Ran KMeans across K=2–10; used Elbow + Silhouette methods to evaluate.",
+      "Selected K=5 for interpretability; projected clusters via PCA scatter plot.",
+      "Profiles: Derived 5 personas (Premium Spenders, Budget-Conscious Older Adults, Young Value Seekers, Affluent but Reserved, Mid-tier Regulars)."
+    ],
+    impact:
+      "Delivered 5 interpretable customer personas with actionable strategies (VIP perks, student discounts, upselling, essentials, bundles), enabling data-driven segmentation and marketing."
   },
+  github: "https://github.com/kudos07/Mall_Customers_dataset" // replace with your link
+},
+{
+  title: "Marketing Campaign Effectiveness (Causal Inference)",
+  subtitle: "PSM → covariate balance → ATT estimation",
+  tech: ["Python", "Pandas", "NumPy", "Scikit-learn", "Matplotlib", "Statsmodels"],
+  images: [img2],
+  details: {
+    problem:
+      "Determine whether a marketing campaign causally increased purchases or if differences were driven by demographics and confounding factors.",
+    data:
+      "Kaggle Marketing Campaign dataset (~2,240 customers): demographics (Age, Income, Education, Marital Status), product spending, and campaign response (Response).",
+    approach: [
+      "Engineered treatment (`Treated`=1 if Response=1) and outcomes (`NumStorePurchases`, `TotalSpend`).",
+      "Applied Propensity Score Matching (nearest-neighbor, caliper=0.05) to balance treatment vs control on covariates.",
+      "Checked covariate balance with Standardized Mean Differences and Love plots.",
+      "Estimated ATT (Average Treatment Effect on the Treated) with 95% confidence intervals.",
+      "Compared in-store purchases vs. total spending; visualized distributions and diagnostic plots."
+    ],
+    impact:
+      "Found campaign significantly reduced in-store purchases (~1.8 fewer per treated customer, CI [–2.5, –1.0]); no statistically significant lift in total spend. Insights guided redesign of campaign targeting and messaging."
+  },
+  github: "https://github.com/kudos07/Marketing-PsM" // replace with your link
+},
+{
+  title: "Kaggle Playground S5E1: Forecasting sticker sales",
+  subtitle: "Time features → encoding → LightGBM (MAPE‑first)",
+  tech: ["Python", "Pandas", "NumPy", "Scikit‑learn", "LightGBM", "Optuna", "Matplotlib", "Seaborn"],
+  images: [img3],
+  details: {
+    problem:
+      "Predict the number of units sold (`num_sold`) from structured tabular data; optimize for business‑friendly error (MAPE) to support demand planning.",
+    data:
+      "Kaggle Playground Series (Season 5, Episode 1): train/test with `num_sold` target and categorical/date fields; includes `sample_submission.csv`.",
+    approach: [
+      "EDA: target distribution and calendar effects; category frequencies; leakage checks.",
+      "Feature engineering: parsed dates → year/month/day‑of‑week; optional week/quarter; interaction terms as needed.",
+      "Encoding: LabelEncoding for categoricals used by tree models; kept numerics raw.",
+      "Validation: 5‑fold K‑Fold cross‑validation (shuffle, seed=42) with MAPE as the primary score.",
+      "Model: LightGBM Regressor as the main learner; hyperparameter tuning via Optuna; early stopping on validation folds.",
+      "Evaluation: MAPE (primary), plus MAE/RMSE for sanity; tracked fold scores and variance; generated test predictions and submission CSV."
+    ],
+    impact:
+      "Built a leaderboard‑ready pipeline with consistent cross‑validated MAPE and robust generalization. The workflow (time features + LightGBM + Optuna + K‑Fold) is reusable for retail demand planning and other tabular forecasting/regression tasks."
+  },
+  github: "https://github.com/kudos07/Kaggle-Playground-series/tree/main/S5-E1/Code" // replace with your link
+}
+
+    ]
+  }
+,
   {
     name: "Deep Learning",
     heroImg: dlHero,
@@ -626,7 +686,7 @@ export default function Projects() {
       </p>
     ) : null}
 
-   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
   {current.details.resultsImages.map((imgSrc: string | StaticImageData, i: number) => {
     const src = typeof imgSrc === "string" ? imgSrc : imgSrc.src; // no 'any' needed
     const fname = fileNameFromUrl(src) || `result_${i + 1}.png`;
