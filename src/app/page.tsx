@@ -3,6 +3,7 @@
 import { FaGithub, FaLinkedin, FaInstagram } from "react-icons/fa";
 import { SiKaggle, SiLeetcode } from "react-icons/si";
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 
 // ⬇️ import your Experience section
 import Experience from "./components/Experience/Experience";
@@ -13,17 +14,24 @@ import Contact from "./components/Contact/Contact";
 export default function Home() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  // Animated background
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext("2d");
+
+    const ctx = canvas.getContext("2d") as CanvasRenderingContext2D | null;
     if (!ctx) return;
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    // capture a non-null alias so TS is happy inside closures
+    const context: CanvasRenderingContext2D = ctx;
 
-    let particles: { x: number; y: number; vx: number; vy: number }[] = [];
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    resize();
+    window.addEventListener("resize", resize);
+
+    const particles: { x: number; y: number; vx: number; vy: number }[] = [];
     for (let i = 0; i < 60; i++) {
       particles.push({
         x: Math.random() * canvas.width,
@@ -33,47 +41,48 @@ export default function Home() {
       });
     }
 
-    function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    let raf = 0;
+    const animate = () => {
+      context.clearRect(0, 0, canvas.width, canvas.height);
 
       particles.forEach((p, i) => {
         p.x += p.vx;
         p.y += p.vy;
-
         if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
         if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
 
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(0,255,180,0.7)";
-        ctx.fill();
+        context.beginPath();
+        context.arc(p.x, p.y, 2, 0, Math.PI * 2);
+        context.fillStyle = "rgba(0,255,180,0.7)";
+        context.fill();
 
         for (let j = i + 1; j < particles.length; j++) {
-          const p2 = particles[j];
-          const dist = Math.sqrt((p.x - p2.x) ** 2 + (p.y - p2.y) ** 2);
+          const q = particles[j];
+          const dx = p.x - q.x;
+          const dy = p.y - q.y;
+          const dist = Math.hypot(dx, dy);
           if (dist < 120) {
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = `rgba(0,255,180,${1 - dist / 120})`;
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
+            context.beginPath();
+            context.moveTo(p.x, p.y);
+            context.lineTo(q.x, q.y);
+            context.strokeStyle = `rgba(0,255,180,${1 - dist / 120})`;
+            context.lineWidth = 0.5;
+            context.stroke();
           }
         }
       });
 
-      requestAnimationFrame(animate);
-    }
-
-    animate();
-
-    const handleResize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      raf = requestAnimationFrame(animate);
     };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+
+    raf = requestAnimationFrame(animate);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", resize);
+    };
   }, []);
+
 
   const scrollToSection = (id: string) => {
     if (id === "home") {
@@ -110,9 +119,11 @@ export default function Home() {
         <div className="flex flex-col md:flex-row items-center md:items-start gap-12 max-w-6xl w-full">
           {/* Left side */}
           <div className="flex flex-col items-center text-center">
-            <img
+            <Image
               src="/profile.jpg"
               alt="Profile Picture"
+              width={256}
+              height={256}
               className="w-64 h-64 rounded-full border-4 border-teal-400 shadow-lg object-cover"
             />
             <h1 className="text-3xl font-bold mt-6">Saransh Surana</h1>
