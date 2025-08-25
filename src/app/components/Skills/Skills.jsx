@@ -11,33 +11,41 @@ const SKILLS = [
   { name: "R", cat: "Languages" },
   { name: "Bash", cat: "Languages" },
   { name: "C/C++", cat: "Languages" },
-  { name: "SAS", cat: "Languages" },
   { name: "NoSQL", cat: "Languages" },
   { name: "Ocaml", cat: "Languages" },
 
   // ML & AI
-  { name: "PyTorch", cat: "ML & AI" },
-  { name: "TensorFlow", cat: "ML & AI" },
-  { name: "Keras", cat: "ML & AI" },
-  { name: "scikit-learn", cat: "ML & AI" },
-  { name: "XGBoost", cat: "ML & AI" },
-  { name: "FAISS", cat: "ML & AI" },
-  { name: "NLP", cat: "ML & AI" },
-  { name: "Computer Vision", cat: "ML & AI" },
+{ name: "PyTorch", cat: "ML & AI" },
+{ name: "TensorFlow", cat: "ML & AI" },
+{ name: "Keras", cat: "ML & AI" },
+{ name: "scikit-learn", cat: "ML & AI" },
+{ name: "XGBoost", cat: "ML & AI" },
+{ name: "LightGBM", cat: "ML & AI" },
+{ name: "CatBoost", cat: "ML & AI" },
+{ name: "FAISS", cat: "ML & AI" },
+{ name: "Hugging Face Transformers", cat: "ML & AI" },
+{ name: "spaCy", cat: "ML & AI" },
+{ name: "Vision Transformers (ViT)", cat: "ML & AI" },
+{ name: "Reinforcement Learning", cat: "ML & AI" },
+{ name: "Recommendation Systems", cat: "ML & AI" },
 
   // Libraries
   { name: "Pandas", cat: "Libraries" },
-  { name: "NumPy", cat: "Libraries" },
-  { name: "SciPy", cat: "Libraries" },
-  { name: "NLTK", cat: "Libraries" },
-  { name: "OpenCV", cat: "Libraries" },
-  { name: "CUDA", cat: "Libraries" },
-  { name: "Matplotlib", cat: "Libraries" },
+{ name: "NumPy", cat: "Libraries" },
+{ name: "SciPy", cat: "Libraries" },
+{ name: "Statsmodels", cat: "Libraries" },
+{ name: "Seaborn", cat: "Libraries" },
+{ name: "Plotly", cat: "Libraries" },
+{ name: "NLTK", cat: "Libraries" },
+{ name: "OpenCV", cat: "Libraries" },
+{ name: "Matplotlib", cat: "Libraries" },
+{ name: "CUDA", cat: "Libraries" },
+{ name: "Playwright", cat: "Libraries" },
+
 
   // Databases
   { name: "MySQL", cat: "Databases" },
   { name: "MongoDB", cat: "Databases" },
-  { name: "Oracle", cat: "Databases" },
   { name: "Hadoop", cat: "Databases" },
   { name: "Hive", cat: "Databases" },
   { name: "BigQuery", cat: "Databases" },
@@ -58,8 +66,6 @@ const SKILLS = [
   { name: "Excel", cat: "Analytics & Viz" },
   { name: "Grafana", cat: "Analytics & Viz" },
   { name: "Weights & Biases", cat: "Analytics & Viz" },
-  { name: "Jupyter", cat: "Analytics & Viz" },
-  { name: "MapReduce", cat: "Analytics & Viz" },
 
   // Statistics
   { name: "Regression", cat: "Statistics" },
@@ -67,15 +73,12 @@ const SKILLS = [
   { name: "A/B Testing", cat: "Statistics" },
   { name: "Time Series", cat: "Statistics" },
   { name: "Bayesian Inference", cat: "Statistics" },
-  { name: "ANOVA", cat: "Statistics" },
   { name: "Hypothesis Testing", cat: "Statistics" },
-  { name: "SPSS", cat: "Statistics" },
   { name: "SHAP", cat: "Statistics" },
 ];
 
 /** Categories for filter chips */
 const CATS = [
-  "All",
   "Languages",
   "ML & AI",
   "Libraries",
@@ -105,11 +108,11 @@ function Tile({ name }) {
 
 /** ================== Component ================== **/
 export default function Skills() {
-  const [active, setActive] = useState("All");
+  const [active, setActive] = useState(CATS[0]); // default first category
   const [q, setQ] = useState("");
 
   const filtered = useMemo(() => {
-    const list = active === "All" ? SKILLS : SKILLS.filter(s => s.cat === active);
+    const list = SKILLS.filter(s => s.cat === active);
     const t = q.trim().toLowerCase();
     return t ? list.filter(s => s.name.toLowerCase().includes(t)) : list;
   }, [active, q]);
