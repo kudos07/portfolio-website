@@ -14,15 +14,19 @@ import face1 from "./images/histogram.png";
 import stry from "./images/strybd-1.png";
 import arch from "./images/storyboard-architecture.png"; // architecture diagram
 import mhcb from "./images/chatbot.png"
-import wall from "./images/chatbot-wall.webp"
-import img2 from "./images/dsml-p2.jpeg"
+import wall from "./images/chatbot-wall.png"
+import img2 from "./images/fraud.png"
 import img1 from "./images/CTR_at_k_episode.png"
 import img3 from "./images/NDCG_at_k.png"
-import img4 from "./images/rlpro.jpg"
-import img5 from "./images/cvb.jpg"
+import img4 from "./images/rlpro.png"
+import img5 from "./images/opv.png"
 import img6 from "./images/img1.png"
 import img7 from "./images/img2.png"
 import img8 from "./images/img3.png"
+import img9 from "./images/elbow.png"
+import img10 from "./images/plot.png"
+import img11 from "./images/forecast.png"
+import img12 from "./images/quora.png"
 // import img9 from "./images/img4.png"
 // import img10 from "./images/img5.png"
 
@@ -104,9 +108,9 @@ const CATEGORIES: Category[] = [
           data:
             "2,000+ essays with keystroke logs (event timings, text changes, word counts) from Kaggle.",
           approach: [
-            "Engineered process features (pause length, bursts, insertions, deletions).",
-            "Z‑tests comparing high vs low scoring groups.",
-            "Multiple linear regression models with diagnostics (VIF, residuals, normality)."
+            "1. Engineered process features (pause length, bursts, insertions, deletions).",
+            "2. Z‑tests comparing high vs low scoring groups.",
+            "3. Multiple linear regression models with diagnostics (VIF, residuals, normality)."
           ],
           impact:
             "Explained ~50% of score variance; uninterrupted bursts and revision frequency were strongest predictors."
@@ -116,7 +120,7 @@ const CATEGORIES: Category[] = [
       },
       {
   title: "Financial Fraud Detection",
-  subtitle: "EDA → smart encoding → model zoo (PR‑AUC‑first)",
+  subtitle: "Detecting fraudulent transactions with ML (PR-AUC focus)",
   tech: ["Python", "Pandas", "NumPy", "Scikit-learn", "Seaborn", "Matplotlib", "XGBoost", "RandomForest", "LightGBM", "CatBoost", "SHAP"],
   images: [img2],
   details: {
@@ -125,13 +129,13 @@ const CATEGORIES: Category[] = [
     data:
       "Synthetic mobile‑money transactions over ~30 days (CASH‑IN, CASH‑OUT, PAYMENT, TRANSFER, DEBIT), origin/destination IDs, balances/amounts; label: isFraud (0/1).",
     approach: [
-      "EDA: schema, missingness, class imbalance; fraud rate by transaction type; key distribution plots.",
-      "Encoding: One‑Hot for low‑cardinality categoricals (e.g., type); Frequency encoding for high‑cardinality IDs (nameOrig/nameDest). No plain LabelEncoder.",
-      "Split: Time‑aware 80/20 split if timestamp available; otherwise stratified split to preserve class ratio.",
-      "Models: Logistic Regression baseline → Random Forest → XGBoost (primary); optional LightGBM/CatBoost for comparison.",
-      "Evaluation: PR‑AUC (primary) and ROC‑AUC; PR curves; cost‑optimal threshold selection; confusion matrix & classification report.",
-      "Extras: Probability calibration (Platt), feature importance & SHAP explanations; artifacts saved (metrics.json, trained model)."
-    ],
+  "1. EDA: check schema, missing values, class imbalance; analyze fraud rate by transaction type; plot key distributions.",
+  "2. Encoding: One-Hot for low-cardinality categoricals (e.g., type); Frequency encoding for high-cardinality IDs (nameOrig/nameDest).",
+  "3. Split: Time-aware 80/20 split if timestamps available; otherwise stratified split to preserve class ratio.",
+  "4. Models: Logistic Regression baseline → Random Forest → XGBoost (primary); optional LightGBM/CatBoost for comparison.",
+  "5. Evaluation: PR-AUC (primary) and ROC-AUC; PR curves; cost-sensitive threshold tuning; confusion matrix & classification report.",
+  "6. Extras (optional): probability calibration (Platt), feature importance & SHAP explanations; saved artifacts (metrics.json, trained model)."
+],
     impact:
       "PR‑AUC up to ~0.966 with XGBoost; cost‑tuned operating threshold improved recall at low false‑positive cost; reproducible, portfolio‑ready notebook."
   },
@@ -139,20 +143,20 @@ const CATEGORIES: Category[] = [
 },
    {
   title: "Mall Customer Segmentation",
-  subtitle: "EDA → preprocessing → KMeans (K=5 personas)",
+  subtitle: "Clustering mall customers into 5 personas with KMeans",
   tech: ["Python", "Pandas", "NumPy", "Scikit-learn", "Matplotlib", "Seaborn"],
-  images: [img1],
+  images: [img9],
   details: {
     problem:
       "Identify distinct customer segments to support targeted marketing, loyalty programs, and personalized offers instead of treating all shoppers the same.",
     data:
       "Kaggle Mall Customers dataset (200 records): Gender, Age, Annual Income (k$), Spending Score (1–100).",
     approach: [
-      "EDA: distributions of age, income, spending; scatter plots of income vs. spending score.",
-      "Preprocessing: Dropped CustomerID; encoded Gender; scaled numeric features.",
-      "Clustering: Ran KMeans across K=2–10; used Elbow + Silhouette methods to evaluate.",
-      "Selected K=5 for interpretability; projected clusters via PCA scatter plot.",
-      "Profiles: Derived 5 personas (Premium Spenders, Budget-Conscious Older Adults, Young Value Seekers, Affluent but Reserved, Mid-tier Regulars)."
+      "1. EDA: distributions of age, income, spending; scatter plots of income vs. spending score.",
+      "2. Preprocessing: Dropped CustomerID; encoded Gender; scaled numeric features.",
+      "3. Clustering: Ran KMeans across K=2–10; used Elbow + Silhouette methods to evaluate.",
+      "4. Selected K=5 for interpretability; projected clusters via PCA scatter plot.",
+      "5. Profiles: Derived 5 personas (Premium Spenders, Budget-Conscious Older Adults, Young Value Seekers, Affluent but Reserved, Mid-tier Regulars)."
     ],
     impact:
       "Delivered 5 interpretable customer personas with actionable strategies (VIP perks, student discounts, upselling, essentials, bundles), enabling data-driven segmentation and marketing."
@@ -161,20 +165,20 @@ const CATEGORIES: Category[] = [
 },
 {
   title: "Marketing Campaign Effectiveness (Causal Inference)",
-  subtitle: "PSM → covariate balance → ATT estimation",
+  subtitle: "Measuring true campaign impact with Propensity Score Matching (PSM)",
   tech: ["Python", "Pandas", "NumPy", "Scikit-learn", "Matplotlib", "Statsmodels"],
-  images: [img2],
+  images: [img10],
   details: {
     problem:
       "Determine whether a marketing campaign causally increased purchases or if differences were driven by demographics and confounding factors.",
     data:
       "Kaggle Marketing Campaign dataset (~2,240 customers): demographics (Age, Income, Education, Marital Status), product spending, and campaign response (Response).",
     approach: [
-      "Engineered treatment (`Treated`=1 if Response=1) and outcomes (`NumStorePurchases`, `TotalSpend`).",
-      "Applied Propensity Score Matching (nearest-neighbor, caliper=0.05) to balance treatment vs control on covariates.",
-      "Checked covariate balance with Standardized Mean Differences and Love plots.",
-      "Estimated ATT (Average Treatment Effect on the Treated) with 95% confidence intervals.",
-      "Compared in-store purchases vs. total spending; visualized distributions and diagnostic plots."
+      "1. Engineered treatment (`Treated`=1 if Response=1) and outcomes (`NumStorePurchases`, `TotalSpend`).",
+      "2. Applied Propensity Score Matching (nearest-neighbor, caliper=0.05) to balance treatment vs control on covariates.",
+      "3. Checked covariate balance with Standardized Mean Differences and Love plots.",
+      "4. Estimated ATT (Average Treatment Effect on the Treated) with 95% confidence intervals.",
+      "5. Compared in-store purchases vs. total spending; visualized distributions and diagnostic plots."
     ],
     impact:
       "Found campaign significantly reduced in-store purchases (~1.8 fewer per treated customer, CI [–2.5, –1.0]); no statistically significant lift in total spend. Insights guided redesign of campaign targeting and messaging."
@@ -183,21 +187,21 @@ const CATEGORIES: Category[] = [
 },
 {
   title: "Kaggle Playground S5E1: Forecasting sticker sales",
-  subtitle: "Time features → encoding → LightGBM (MAPE‑first)",
+  subtitle: "Forecasting daily sticker sales with time-series ML (LightGBM)",
   tech: ["Python", "Pandas", "NumPy", "Scikit‑learn", "LightGBM", "Optuna", "Matplotlib", "Seaborn"],
-  images: [img3],
+  images: [img11],
   details: {
     problem:
       "Predict the number of units sold (`num_sold`) from structured tabular data; optimize for business‑friendly error (MAPE) to support demand planning.",
     data:
       "Kaggle Playground Series (Season 5, Episode 1): train/test with `num_sold` target and categorical/date fields; includes `sample_submission.csv`.",
     approach: [
-      "EDA: target distribution and calendar effects; category frequencies; leakage checks.",
-      "Feature engineering: parsed dates → year/month/day‑of‑week; optional week/quarter; interaction terms as needed.",
-      "Encoding: LabelEncoding for categoricals used by tree models; kept numerics raw.",
-      "Validation: 5‑fold K‑Fold cross‑validation (shuffle, seed=42) with MAPE as the primary score.",
-      "Model: LightGBM Regressor as the main learner; hyperparameter tuning via Optuna; early stopping on validation folds.",
-      "Evaluation: MAPE (primary), plus MAE/RMSE for sanity; tracked fold scores and variance; generated test predictions and submission CSV."
+      "1. EDA: target distribution and calendar effects; category frequencies; leakage checks.",
+      "2. Feature engineering: parsed dates → year/month/day‑of‑week; optional week/quarter; interaction terms as needed.",
+      "3. Encoding: LabelEncoding for categoricals used by tree models; kept numerics raw.",
+      "4. Validation: 5‑fold K‑Fold cross‑validation (shuffle, seed=42) with MAPE as the primary score.",
+      "5. Model: LightGBM Regressor as the main learner; hyperparameter tuning via Optuna; early stopping on validation folds.",
+      "6. Evaluation: MAPE (primary), plus MAE/RMSE for sanity; tracked fold scores and variance; generated test predictions and submission CSV."
     ],
     impact:
       "Built a leaderboard‑ready pipeline with consistent cross‑validated MAPE and robust generalization. The workflow (time features + LightGBM + Optuna + K‑Fold) is reusable for retail demand planning and other tabular forecasting/regression tasks."
@@ -215,7 +219,7 @@ const CATEGORIES: Category[] = [
     projects: [
       {
         title: "OptiMorphic-Precision-Vision Framework",
-        subtitle: "Encoder–decoder U-Net → supervised image restoration",
+        subtitle: "Restoring degraded images with a U-Net model (supervised image-to-image)",
   tech : ["Python", "TensorFlow", "Keras", "NumPy", "TensorBoard"],
   images: [img5], // keep covers empty if you don't want a cover
   github: "https://github.com/kudos07/OptiMorphic-Precision-Vision-OPV-Framework",
@@ -225,15 +229,12 @@ problem:
 data:
   "Paired input→target images (e.g., noisy→clean or blurred→sharp). Images are normalized to [0,1], optionally patchified, and fed as (input, target) batches for train/val.",
     approach: [
-  "Framed as paired image-to-image translation (input → target). Inputs normalized to [0,1] for training and denormalized back to 8-bit for previews/exports.",
-  "Implemented a U-Net in TensorFlow/Keras: encoder–decoder with skip connections, ReLU activations, MaxPooling down, UpSampling up, and a 3-channel output head; deeper blocks use Dropout for regularization. Tiny baselines (`identity`, `simplest`) included for ablations.",
-  "Packaged training into a `Model_Train` class that builds the model, sets up an Adam optimizer with exponential-decay learning rate (floored at a minimum LR), TensorBoard writer, and a CheckpointManager for robust recovery.",
-  "Compiled the training step with `@tf.function` (graph mode). Forward pass → compute L1 (MAE) loss against the paired target → backprop with GradientTape → apply gradients to generator weights.",
-  "Logged both scalars and images to TensorBoard at intervals: loss curves plus visual triptychs `(input | prediction | target)` and quick concatenations for qualitative QA.",
-  "Persisted state with `tf.train.Checkpoint` (model, optimizer, global step) and rolling `CheckpointManager` (keep=3). Exposed a `.save()` helper for explicit snapshots.",
-  "Dataloading via an iterator yielding `(paired_input, paired_target)` batches; `train_step` returns a concise log string and preview images, making it easy to surface progress in a UI.",
-  "Architecture is configurable (e.g., base filters via `unet_16()`), allowing depth/width adjustments without changing the training loop."
+  "1. Treat image restoration as paired input→target translation; normalize inputs to [0,1] and denormalize for previews.",
+  "2. Build a configurable U-Net in TensorFlow/Keras with skip connections, dropout, and simple baselines for comparison.",
+  "3. Train with Adam (decaying LR) using MAE loss; compiled in graph mode with GradientTape for efficient backprop.",
+  "4. Log loss curves and input|prediction|target samples in TensorBoard; save checkpoints for recovery and reproducibility."
 ],
+
     impact:
     "U-Net beat identity and simplest baselines with lower MAE and higher PSNR/SSIM; triptych previews show sharper edges and fewer artifacts; fully reproducible with TensorBoard logs and checkpoints."
 
@@ -241,7 +242,7 @@ data:
     },
       {
   title: "RL-based Book Recommendation",
-  subtitle: "Custom Gym env + PPO agent → sequential recsys",
+  subtitle: "Recommending books with Reinforcement Learning (PPO agent on custom Gym env)",
   tech: ["Python", "PyTorch", "Stable-Baselines3 (PPO)", "Gymnasium", "Matplotlib", "NumPy"],
   images: [img4], // keep covers empty if you don't want a cover
   github: "https://github.com/kudos07/RL-Book-Recommender",
@@ -251,14 +252,10 @@ data:
     data:
       "Goodbooks‑10k; env encodes user history as state, action = book, reward = engagement hit.",
     approach: [
-  "Framed recommendation as an MDP. Each episode simulates a user session. State captures recent interactions and simple user features. Action is picking the next book to recommend. Reward is 1 if the user would accept the book in the held-out positives, else 0.",
-  "Prepared data from Goodbooks-10k into session-like sequences. Built per-user positives for evaluation and ensured no leakage by separating train and eval interactions.",
-  "Built a Gymnasium environment (goodbooks_env). reset() initializes a session and exposes the first state. step(action) records the choice, assigns reward using ground truth positives, advances the session window, and prevents repeats. info['is_hit'] flags true positives for clean metric tracking.",
-  "Kept the action space tractable by exposing a candidate slate at each step (for example popularity or simple similarity). The env maps the chosen index back to a book id and enforces that already shown items are masked.",
-  "Trained a policy with PPO using on-policy rollouts collected from the simulator. The agent learns a stochastic policy π(a|s) and a value baseline V(s). Clipped policy updates keep learning stable while GAE supplies low-variance advantages.",
-  "Established simple non-RL baselines. Random samples uniformly from the slate. Popularity always shows the most common unseen items. These baselines anchor expected performance.",
-  "Evaluated offline on held-out sessions. Computed CTR@k and NDCG@k per step and per episode using the env’s info flags. Aggregated over many episodes to reduce variance and plotted the distributions.",
-  "Logged training curves and episode stats with Monitor. Saved artifacts (trained policy, logs, result plots) for reproducibility. Seeding ensures runs are repeatable."
+  "1. Frame it as a small-slate contextual bandit: one pick per step from a tiny candidate set; reward = 1 on hit; mask already-seen books.",
+  "2. Build the slate simply (e.g., top-popular + a few embedding-similar to last read) to keep the action space small and stable.",
+  "3. Train baselines first (random, ε-greedy over a simple score like popularity or dot-product), then swap in PPO on the same setup.",
+  "4. Evaluate offline with fixed seeds: report CTR@1 and NDCG@1 over many steps; log curves and save artifacts for easy reproducibility."
 ],
     impact:
       "PPO beat random on CTR@1 (~3×) and NDCG@1; reproducible pipeline.",
@@ -283,17 +280,16 @@ data:
         ],
         images: [stry],                   // card cover
         architectureImg: arch,           // full architecture diagram
-        reportUrl: "/reports/project_report.pdf",
         details: {
           problem:
             "Meeting transcripts are often long and difficult to digest, making it hard for teams to recall key decisions and action items.",
           data:
             "5–60 minute meeting audio recordings, preprocessed with FFmpeg (resampling, chunking) and converted into transcripts, summaries, and scene beats.",
           approach: [
-            "Frontend in React + Vite + Tailwind for audio uploads, progress tracking, and report viewing.",
-            "Backend with FastAPI (single service) orchestrating steps and saving artifacts to disk (/public) or S3; optional Redis/PostgreSQL for job/state metadata.",
-            "Pipeline: FFmpeg preprocess → Whisper.cpp (ASR) → Ollama (LLaMA 3) for summarization & scene extraction → SDXL (PyTorch) for storyboard frames.",
-            "Final reports combine transcripts, executive summaries, decisions/action items, and a storyboard grid into HTML/PDF."
+            "1. Frontend in React + Vite + Tailwind for audio uploads, progress tracking, and report viewing.",
+            "2. Backend with FastAPI (single service) orchestrating steps and saving artifacts to disk (/public) or S3; optional Redis/PostgreSQL for job/state metadata.",
+            "3. Pipeline: FFmpeg preprocess → Whisper.cpp (ASR) → Ollama (LLaMA 3) for summarization & scene extraction → SDXL (PyTorch) for storyboard frames.",
+            "4. Final reports combine transcripts, executive summaries, decisions/action items, and a storyboard grid into HTML/PDF."
           ],
           impact:
             "Reduced processing time from ~2 minutes to ~40 seconds; delivered clear, shareable summaries and visual storyboards that improved recall and decision‑tracking.",
@@ -308,7 +304,7 @@ data:
       },
       {
   title: "Mental Health Chatbot",
-  subtitle: "AI-powered support with RAG + Gemini for empathetic guidance",
+  subtitle: "AI-powered empathetic support using RAG + Gemini",
   tech: [
     "Streamlit", "FastAPI", "FAISS", "Sentence Transformers",
     "Google Gemini (Generative AI)", "Fernet Encryption", "Python"
@@ -322,10 +318,10 @@ data:
     data:
       "Counseling Q&A datasets and FAQ pairs embedded with Sentence Transformers, indexed in FAISS for retrieval. User interactions stored securely in encrypted memory.",
     approach: [
-      "Frontend built with Streamlit for intuitive, real-time chat interface.",
-      "Chatbot logic orchestrates retrieval + generation pipeline and maintains context across turns.",
-      "Pipeline: User query → Sentence Transformers embeddings → FAISS k-NN retrieval → Constructed RAG prompt (user profile + past concerns + few-shot examples) → Gemini LLM response.",
-      "Integrated FAQ fallback for common queries; encrypted user memory (Fernet) for personalization and privacy."
+      "1. Frontend built with Streamlit for intuitive, real-time chat interface.",
+      "2. Chatbot logic orchestrates retrieval + generation pipeline and maintains context across turns.",
+      "3. Pipeline: User query → Sentence Transformers embeddings → FAISS k-NN retrieval → Constructed RAG prompt (user profile + past concerns + few-shot examples) → Gemini LLM response.",
+      "4. Integrated FAQ fallback for common queries; encrypted user memory (Fernet) for personalization and privacy."
     ],
     impact:
       "Delivered empathetic, context-aware responses tailored to user profile and previous concerns; ensured HIPAA-level privacy compliance; achieved fast, relevant retrieval with FAISS while enabling user-controlled data deletion.",
@@ -337,7 +333,7 @@ data:
       "Final empathetic response → Streamlit output"
     ]
   },
-  github: "https://github.com/yourusername/mental_health_chatbot",
+  github: "https://github.com/kudos07/MentalHealth-Chatbot",
 }
     ]
   },
@@ -348,20 +344,20 @@ data:
     projects: [
       {
   title: "AG News: TF-IDF vs TextCNN vs TextCNN+",
-  subtitle: "Keyword baseline vs CNNs → 4-class news classification",
+  subtitle: "Can a simple keyword model match deep learning for classifying news headlines?",
   tech: ["Python", "PyTorch", "TorchText", "scikit-learn", "Matplotlib", "pandas", "tqdm"],
   images: [img8], // keep empty if you don't want a cover
-  github: "https://github.com/yourrepo/textcnn-agnews", // replace with your link
+  github: "https://github.com/kudos07/AG-News-TF-IDF-vs-TextCNN-vs-TextCNN", // replace with your link
   details: {
     problem:
       "Classify news headlines into four categories and compare a strong TF-IDF+LogReg baseline against compact and improved CNN architectures.",
     data:
       "AG News dataset via TorchText; tokenization with basic_english; custom vocab (<pad>, <unk>), sequences padded/truncated to fixed length; standard train/val/test splits.",
     approach: [
-      "Baseline: TF-IDF (1–2 grams) + Logistic Regression in scikit-learn for a strong keyword model.",
-      "Neural: TextCNN (embedding → parallel Conv1d k∈{3,4,5} → ReLU → max-over-time pool → concat → dropout → linear).",
-      "Improved (TextCNN+): wider filters, longer input windows, dropout regularization, AdamW + OneCycleLR, optional GloVe init, and early stopping on validation.",
-      "Training scripts produce metrics JSONs, per-class reports, confusion matrices, prediction CSVs, and comparison plots for side-by-side review."
+      "1. Baseline: TF-IDF (1–2 grams) + Logistic Regression in scikit-learn for a strong keyword model.",
+      "2. Neural: TextCNN (embedding → parallel Conv1d k∈{3,4,5} → ReLU → max-over-time pool → concat → dropout → linear).",
+      "3. Improved (TextCNN+): wider filters, longer input windows, dropout regularization, AdamW + OneCycleLR, optional GloVe init, and early stopping on validation.",
+      "4. Training scripts produce metrics JSONs, per-class reports, confusion matrices, prediction CSVs, and comparison plots for side-by-side review."
     ],
     impact:
       "TextCNN+ surpassed the keyword baseline (Accuracy 0.893, Macro-F1 0.892) vs TF-IDF+LR (0.865/0.864) and the original TextCNN (0.797/0.797). Reproducible pipelines with saved metrics, plots, and error analyses.",
@@ -371,13 +367,27 @@ data:
   }
 },
       {
-        title: "Toxicity / Sentiment Moderator",
-        subtitle: "DistilBERT on Civil Comments",
-        bullets: ["ROC‑AUC 0.96; macro‑F1 0.81; calibrated thresholds.", "Streaming inference API + live UI."],
-        tech: ["Transformers", "HF Datasets", "FastAPI"],
-        images: [],
-        year: 2024
-      }
+  title: "Quora Duplicate Question Detection",
+  subtitle: "Do these two questions mean the same thing?",
+  tech: ["Python", "PyTorch", "spaCy", "scikit-learn", "Matplotlib", "pandas", "seaborn", "joblib"],
+  images: [img12], // no cover image for now
+  github: "https://github.com/kudos07/Duplicate-Question-Detection-on-Quora-Pairs/tree/main", // replace with your actual repo
+  details: {
+    problem:
+      "Detect whether two questions from Quora mean the same thing using a supervised binary classification setup. Compare a traditional ML baseline vs deep learning with sequence models.",
+    data:
+      "Quora Question Pairs (QQP) dataset (~400k labeled pairs). Cleaned and split with stratified sampling. Used raw question text and binary labels. Preprocessed with token normalization and spaCy embeddings; padded sequences for BiLSTM.",
+    approach: [
+      "1. EDA: Label distribution, question length histograms, Jaccard lexical overlap, exact duplicates, and visualization of class imbalance.",
+      "2. Baseline: Averaged spaCy embeddings per question → engineered pairwise features (cosine, L1, Hadamard, etc.) → Logistic Regression.",
+      "3. Siamese BiLSTM: Shared encoder over tokenized questions → final hidden states → comparison via abs-diff + elementwise product → MLP classifier.",
+      "4. Model outputs: Metrics JSONs, ROC/PR/confusion plots, calibration curve, predictions CSVs, saved model artifacts (joblib, .pt, vocab, etc.)."
+    ],
+    impact:
+      "Demonstrated ~19% accuracy lift and major ROC/PR-AUC gains from the deep BiLSTM approach (~0.82 accuracy) over the feature-based baseline (~0.63). Encoded deeper semantics via sequence modeling and aligned evaluation artifacts for clarity.",
+  }
+}
+
     ]
   }
 ];
