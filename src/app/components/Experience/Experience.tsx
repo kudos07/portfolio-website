@@ -20,7 +20,7 @@ const EXPERIENCES = [
   {
     role: "Research Assistant",
     company: "Stony Brook University",
-    duration: "2022–2023",
+    duration: "Jan 2025– May 2025",
     location: "Stony Brook, NY, US",
     bullets: [
       "Built Python pipelines to clean and preprocess unstructured data from web pages, PDFs, and other raw formats, version-controlled with Git for reproducibility and collaboration",
@@ -63,9 +63,11 @@ export default function Experience() {
   };
 
   return (
-    <section id="experience" className="min-h-screen pt-32 px-6">
-      <div className="mx-auto max-w-5xl">
-        <h2 className="text-4xl font-bold mb-12 text-center">Experience</h2>
+    <section id="experience" className="min-h-screen pt-28 sm:pt-32 px-4 sm:px-6 pb-16 section-top">
+      <div className="mx-auto max-w-4xl">
+        <h2 className="section-title text-3xl sm:text-4xl mb-10 text-center">
+          <span className="section-title-accent">Experience</span>
+        </h2>
 
         <div className="space-y-4">
           {EXPERIENCES.map((exp, i) => (

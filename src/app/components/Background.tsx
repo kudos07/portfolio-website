@@ -21,22 +21,22 @@ const OPTIONS: ISourceOptions = {
     links: {
       enable: true,
       color: "#14b8a6",
-      distance: 150,
-      opacity: 0.35,
-      width: 1,
+      distance: 140,
+      opacity: 0.2,
+      width: 0.8,
     },
     move: {
       enable: true,
-      speed: 1.6,
+      speed: 1,
       outModes: { default: "out" },
     },
     number: {
-      value: 70,
-      density: { enable: true}, // fine with current types
+      value: 45,
+      density: { enable: true },
     },
-    opacity: { value: 0.5 },
+    opacity: { value: 0.35 },
     shape: { type: "circle" },
-    size: { value: { min: 1, max: 3 } },
+    size: { value: { min: 1, max: 2.5 } },
   },
   detectRetina: true,
 };

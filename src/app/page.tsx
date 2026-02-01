@@ -1,88 +1,23 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { FaGithub, FaLinkedin, FaInstagram } from "react-icons/fa";
 import { SiKaggle, SiLeetcode } from "react-icons/si";
-import { useEffect, useRef } from "react";
 import Image from "next/image";
 
-// ⬇️ import your Experience section
 import Experience from "./components/Experience/Experience";
 import Projects from "./components/Projects/Projects";
 import Skills from "./components/Skills/Skills";
 import Contact from "./components/Contact/Contact";
+import OpenSourceAndWriting from "./components/OpenSourceAndWriting/OpenSourceAndWriting";
 
 export default function Home() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
+  const [showScrollHint, setShowScrollHint] = useState(true);
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext("2d") as CanvasRenderingContext2D | null;
-    if (!ctx) return;
-
-    // capture a non-null alias so TS is happy inside closures
-    const context: CanvasRenderingContext2D = ctx;
-
-    const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-    resize();
-    window.addEventListener("resize", resize);
-
-    const particles: { x: number; y: number; vx: number; vy: number }[] = [];
-    for (let i = 0; i < 60; i++) {
-      particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.5,
-        vy: (Math.random() - 0.5) * 0.5,
-      });
-    }
-
-    let raf = 0;
-    const animate = () => {
-      context.clearRect(0, 0, canvas.width, canvas.height);
-
-      particles.forEach((p, i) => {
-        p.x += p.vx;
-        p.y += p.vy;
-        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
-        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-
-        context.beginPath();
-        context.arc(p.x, p.y, 2, 0, Math.PI * 2);
-        context.fillStyle = "rgba(0,255,180,0.7)";
-        context.fill();
-
-        for (let j = i + 1; j < particles.length; j++) {
-          const q = particles[j];
-          const dx = p.x - q.x;
-          const dy = p.y - q.y;
-          const dist = Math.hypot(dx, dy);
-          if (dist < 120) {
-            context.beginPath();
-            context.moveTo(p.x, p.y);
-            context.lineTo(q.x, q.y);
-            context.strokeStyle = `rgba(0,255,180,${1 - dist / 120})`;
-            context.lineWidth = 0.5;
-            context.stroke();
-          }
-        }
-      });
-
-      raf = requestAnimationFrame(animate);
-    };
-
-    raf = requestAnimationFrame(animate);
-
-    return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener("resize", resize);
-    };
+    const onScroll = () => setShowScrollHint(window.scrollY < 80);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
 
   const scrollToSection = (id: string) => {
     if (id === "home") {
@@ -98,114 +33,98 @@ export default function Home() {
   };
 
   return (
-    <div className="relative min-h-screen text-white overflow-hidden">
-      {/* Background */}
-      <canvas ref={canvasRef} className="absolute inset-0 z-00" />
-
+    <div className="relative min-h-screen text-white overflow-x-hidden">
       {/* Navbar */}
-      <nav className="flex justify-end space-x-8 p-6 bg-black/70 text-white fixed top-0 left-0 right-0 shadow-md z-20">
-        <button onClick={() => scrollToSection("home")} className="cursor-pointer hover:text-teal-300">Home</button>
-        <button onClick={() => scrollToSection("experience")} className="cursor-pointer hover:text-teal-300">Experience</button>
-        <button onClick={() => scrollToSection("projects")} className="cursor-pointer hover:text-teal-300">Projects</button>
-        <button onClick={() => scrollToSection("skills")} className="cursor-pointer hover:text-teal-300">Skills</button>
-        <button onClick={() => scrollToSection("contact")} className="cursor-pointer hover:text-teal-300">Leave a Message</button>
+      <nav className="flex flex-wrap justify-between items-center gap-4 px-4 sm:px-6 py-4 bg-black/70 backdrop-blur-md text-white fixed top-0 left-0 right-0 z-20 border-b border-white/[0.06]">
+        <button onClick={() => scrollToSection("home")} className="text-base font-semibold tracking-tight text-white hover:text-teal-300 transition">
+          Saransh Surana
+        </button>
+        <div className="flex flex-wrap items-center justify-end gap-3 sm:gap-5">
+          <button onClick={() => scrollToSection("experience")} className="text-sm font-medium text-gray-400 hover:text-teal-300 transition">Experience</button>
+          <button onClick={() => scrollToSection("projects")} className="text-sm font-medium text-gray-400 hover:text-teal-300 transition">Projects</button>
+          <button onClick={() => scrollToSection("skills")} className="text-sm font-medium text-gray-400 hover:text-teal-300 transition">Skills</button>
+          <button onClick={() => scrollToSection("open-source")} className="text-sm font-medium text-gray-400 hover:text-teal-300 transition hidden sm:inline">Writing</button>
+          <button onClick={() => scrollToSection("contact")} className="text-sm font-medium text-gray-400 hover:text-teal-300 transition">Contact</button>
+        </div>
       </nav>
 
-      {/* Hero/About Section */}
+      {/* Hero — gradient name only here for focus */}
       <section
         id="home"
-        className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 pt-32"
+        className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 sm:px-6 pt-24 sm:pt-28 pb-20"
       >
-        <div className="flex flex-col md:flex-row items-center md:items-start gap-12 max-w-6xl w-full">
-          {/* Left side */}
-          <div className="flex flex-col items-center text-center">
+        <div className="flex flex-col md:flex-row items-center md:items-start gap-10 md:gap-14 max-w-5xl w-full">
+          <div className="flex flex-col items-center text-center md:text-left md:items-start shrink-0">
             <Image
-              src="/profile.jpg"
-              alt="Profile Picture"
-              width={256}
-              height={256}
-              className="w-64 h-64 rounded-full border-4 border-teal-400 shadow-lg object-cover"
+              src="/profile.png"
+              alt="Saransh Surana"
+              width={220}
+              height={220}
+              className="w-52 h-52 sm:w-56 sm:h-56 rounded-full border-2 border-teal-400/50 object-cover shadow-2xl shadow-teal-900/20"
             />
-            <h1 className="text-3xl font-bold mt-6">Saransh Surana</h1>
-            <p className="text-lg text-gray-300">
-              Data Science • Machine Learning • Artificial Intelligence
+            <h1 className="text-2xl sm:text-3xl font-bold mt-5 bg-clip-text text-transparent bg-gradient-to-r from-teal-200 via-cyan-100 to-teal-300">
+              Saransh Surana
+            </h1>
+            <p className="text-sm sm:text-base text-gray-400 mt-1">
+              Data Science · ML · AI
             </p>
-
-            {/* Social Icons */}
-            <div className="flex space-x-6 mt-4 text-2xl">
-              <a href="https://github.com/kudos07" target="_blank" rel="noopener noreferrer"><FaGithub /></a>
-              <a href="https://linkedin.com/in/saransh-surana" target="_blank" rel="noopener noreferrer"><FaLinkedin /></a>
-              <a href="https://www.instagram.com/saransh_07rm/" target="_blank" rel="noopener noreferrer"><FaInstagram /></a>
-              <a href="https://www.kaggle.com/saranshsurana07" target="_blank" rel="noopener noreferrer"><SiKaggle /></a>
-              <a href="https://leetcode.com/u/etiUzVdrA3/" target="_blank" rel="noopener noreferrer"><SiLeetcode /></a>
+            <div className="flex gap-5 mt-4 text-xl text-gray-500 [&>a:hover]:text-teal-300 [&>a]:transition">
+              <a href="https://github.com/kudos07" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><FaGithub /></a>
+              <a href="https://linkedin.com/in/saransh-surana" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><FaLinkedin /></a>
+              <a href="https://www.instagram.com/saransh_07rm/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><FaInstagram /></a>
+              <a href="https://www.kaggle.com/saranshsurana07" target="_blank" rel="noopener noreferrer" aria-label="Kaggle"><SiKaggle /></a>
+              <a href="https://leetcode.com/u/etiUzVdrA3/" target="_blank" rel="noopener noreferrer" aria-label="LeetCode"><SiLeetcode /></a>
             </div>
           </div>
 
-          {/* Right side */}
-          <div className="flex-1">
-            <h2 className="text-2xl font-bold mb-4">About Me</h2>
-            <p className="text-gray-200 leading-relaxed">
-              I’m a Data Scientist & AI Engineer with expertise in machine learning,
+          <div className="flex-1 min-w-0">
+            <h2 className="text-lg font-semibold text-gray-200 mb-3">About me</h2>
+            <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
+              I&apos;m a Data Scientist & AI Engineer with expertise in machine learning,
               deep learning, and large-scale data systems. My work focuses on
               building scalable, end-to-end ML solutions that solve real-world problems,
               from data preprocessing to deployment.
-              <br /><br />
+            </p>
+            <p className="text-gray-300 text-sm sm:text-base leading-relaxed mt-4">
               I enjoy working at the intersection of AI research and practical applications,
-              turning complex data into insights and intelligent systems. Looking ahead,
-              I aim to contribute to cutting-edge AI innovation, particularly in areas like
-              LLMs, generative AI, and optimization-driven ML systems, while driving
-              measurable business impact.
+              turning complex data into insights and intelligent systems. I aim to contribute
+              to cutting-edge AI innovation—LLMs, generative AI, optimization-driven ML—while
+              driving measurable business impact.
             </p>
             <a
-  href="/resume/saransh_surana_resume.pdf"
-  download
-  className="mt-6 inline-block px-6 py-3 bg-white text-green-800 font-semibold rounded-md shadow hover:bg-gray-200"
->
-  Download Resume
-</a>
-
-            {/* Interests + Education */}
-            <div className="flex flex-col md:flex-row gap-12 mt-10">
+              href="/resume/saransh_surana_resume.pdf"
+              download
+              className="mt-5 inline-block px-5 py-2.5 text-sm font-semibold rounded-lg bg-teal-400/20 text-teal-300 ring-1 ring-teal-400/30 hover:bg-teal-400/30 hover:ring-teal-400/50 transition"
+            >
+              Download Resume
+            </a>
+            <div className="flex flex-col sm:flex-row gap-8 mt-8">
               <div>
-                <h3 className="text-xl font-semibold mb-3">Interests</h3>
-                <ul className="list-disc list-inside text-gray-200">
-                  <li>Artificial Intelligence</li>
-                  <li>Machine Learning</li>
-                  <li>Deep Learning</li>
-                  <li>Data Engineering</li>
-                  <li>Statistics</li>
-                </ul>
+                <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-widest mb-2">Interests</h3>
+                <p className="text-gray-400 text-sm">AI · ML · Deep Learning · Data Engineering · Statistics</p>
               </div>
               <div>
-                <h3 className="text-xl font-semibold mb-3">Education</h3>
-                <ul className="list-disc list-inside text-gray-200">
-                  <li>M.S. Data Science – Stony Brook University</li>
-                  <li>B.E. Electronics & Communication – Andhra University</li>
-                </ul>
+                <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-widest mb-2">Education</h3>
+                <p className="text-gray-400 text-sm">M.S. Data Science — Stony Brook · B.E. ECE — Andhra University</p>
               </div>
             </div>
           </div>
         </div>
+        {showScrollHint && (
+          <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-10 text-gray-400 text-xs font-medium tracking-wider animate-pulse" aria-hidden>
+            Scroll
+          </div>
+        )}
       </section>
 
-      {/* ⬇️ Experience (flash cards) */}
+      {/* Section divider */}
+      <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" aria-hidden />
+
       <Experience />
       <Projects />
       <Skills />
+      <OpenSourceAndWriting />
       <Contact />
-
-      {/* Other Sections */}
-      {/* <section id="projects" className="min-h-screen pt-32 flex items-center justify-center bg-black bg-opacity-50">
-        <h1 className="text-4xl font-bold">Projects</h1>
-      </section> */}
-
-      {/* <section id="skills" className="min-h-screen pt-32 flex items-center justify-center bg-black bg-opacity-50">
-        <h1 className="text-4xl font-bold">Skills</h1>
-      </section> */}
-
-      {/* <section id="contact" className="min-h-screen pt-32 flex items-center justify-center bg-black bg-opacity-50">
-        <h1 className="text-4xl font-bold">Leave a Message</h1>
-      </section> */}
     </div>
   );
 }

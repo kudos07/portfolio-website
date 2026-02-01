@@ -2,12 +2,10 @@
 
 export default function Contact() {
   return (
-    <section id="contact" className="min-h-screen pt-28 px-6">
-      <div className="mx-auto max-w-2xl">
-        <h2 className="text-4xl font-extrabold text-center mb-10">
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-teal-300 via-cyan-200 to-indigo-300">
-            Leave a Message
-          </span>
+    <section id="contact" className="min-h-screen pt-28 sm:pt-32 px-4 sm:px-6 pb-16 section-top">
+      <div className="mx-auto max-w-xl">
+        <h2 className="section-title text-3xl sm:text-4xl text-center mb-8">
+          <span className="section-title-accent">Leave a Message</span>
         </h2>
 
         <form

@@ -3,8 +3,46 @@
 /* Remove custom white background messing things up */
 body {
   @apply bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white antialiased;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   margin: 0;
+}
+
+/* Portfolio utilities (used by Projects, Contact, etc.) */
+.text-glow {
+  text-shadow: 0 0 20px rgba(45, 212, 191, 0.25);
+}
+.card-glow {
+  box-shadow: 0 0 24px rgba(20, 184, 166, 0.08), 0 4px 24px rgba(0, 0, 0, 0.2);
+}
+.glow-halo {
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.06), transparent 50%);
+  pointer-events: none;
+}
+.bullet-dot {
+  left: 0;
+  top: 0.4em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(45, 212, 191, 0.7);
+}
+
+/* Section rhythm — subtle top line for separation */
+.section-top {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+.section-title {
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.02em;
+}
+.section-title-accent {
+  display: inline-block;
+  padding-bottom: 0.2em;
+  border-bottom: 2px solid rgba(45, 212, 191, 0.5);
 }
 
 /* 🔥 Blob Animations */
@@ -66,28 +104,24 @@ html {
 }
 
 .tile {
-  background: rgba(255,255,255,0.05);
-  padding: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1rem 1.25rem;
   border-radius: 1rem;
   min-height: 90px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
-  box-shadow: 0 10px 30px rgba(0,0,0,.35);
   text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
 }
 .tile:hover {
-  transform: translateY(-4px) perspective(1200px) rotateX(1deg) rotateY(-1deg);
-  background: rgba(255,255,255,0.07);
-  box-shadow: 0 0 24px rgba(20,184,166,.18), 0 0 48px rgba(59,130,246,.15);
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: 0 0 24px rgba(20, 184, 166, 0.18), 0 0 48px rgba(59, 130, 246, 0.15);
 }
-
-.tilt { transform-style: preserve-3d; }
-
-.tile {
-  min-height: 90px;
-  transition: all 0.25s ease;
+.tilt {
+  transform-style: preserve-3d;
 }
 
 .bg-mesh {
