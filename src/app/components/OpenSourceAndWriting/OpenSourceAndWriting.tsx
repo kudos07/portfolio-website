@@ -9,6 +9,12 @@ interface CardItem {
 
 const openSource: CardItem[] = [
   {
+    title: "Haystack Core Integrations (deepset-ai)",
+    description:
+      "Two merged PRs: (1) Fixed llama-stack integration for llama-stack>=0.4.0 — updated api_base_url and CI workflow (PR #2805). (2) Stopped CI from running tests for archived Google integrations — removed workflow files and labeler refs for google-ai-haystack and google-vertex-haystack (PR #2802).",
+    link: "https://github.com/deepset-ai/haystack-core-integrations/pull/2805",
+  },
+  {
     title: "Statsmodels",
     description:
       "Contributed documentation improvements (merged PR #9660 — clarified `Gamma` `loglike_obs` and `weights` parameterization) and currently implementing rotated copula support for enhanced tail-dependence modeling.",
@@ -18,7 +24,13 @@ const openSource: CardItem[] = [
     title: "Skrub",
     description:
       "Authored two contributions — one improving documentation and example clarity (merged), and another proposing a new `select_list` / `is_list` selector feature for list-like columns (closed after backend discussions). Both contributions deepened library understanding and informed future selector design.",
-      link: "https://github.com/skrub-data/skrub/pull/1670",
+    link: "https://github.com/skrub-data/skrub/pull/1670",
+  },
+  {
+    title: "Outlines (dottxt-ai)",
+    description:
+      "Added parametrized Transformers smoke test for tokenizer robustness (merged PR #1814). Tests initialization and constrained generation across multiple Hugging Face checkpoints to surface tokenizer-related edge cases across models.",
+    link: "https://github.com/dottxt-ai/outlines/pull/1814",
   },
 ];
 
