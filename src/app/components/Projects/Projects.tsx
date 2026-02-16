@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image, { StaticImageData } from "next/image";
 import { FaGithub, FaExternalLinkAlt, FaTimes, FaDownload } from "react-icons/fa";
 
@@ -394,8 +394,47 @@ data:
 
 /* ===================== Component ===================== */
 export default function Projects() {
-  const [openCategory, setOpenCategory] = useState<number | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
   const [openProject, setOpenProject] = useState<{ cat: number; idx: number } | null>(null);
+
+  const rotatingProjects = useMemo(
+    () =>
+      CATEGORIES.flatMap((cat, catIndex) =>
+        cat.projects.map((project, idx) => ({
+          cat: catIndex,
+          idx,
+          category: cat.name,
+          project,
+        }))
+      ),
+    []
+  );
+
+  useEffect(() => {
+    if (!rotatingProjects.length) return;
+    const timer = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % rotatingProjects.length);
+    }, 2300);
+    return () => clearInterval(timer);
+  }, [rotatingProjects.length]);
+
+  const goPrev = () => {
+    setActiveIndex((prev) =>
+      prev === 0 ? rotatingProjects.length - 1 : prev - 1
+    );
+  };
+
+  const goNext = () => {
+    setActiveIndex((prev) => (prev + 1) % rotatingProjects.length);
+  };
+
+  const visibleProjects = useMemo(() => {
+    if (!rotatingProjects.length) return [];
+    return Array.from({ length: Math.min(4, rotatingProjects.length) }, (_, offset) => {
+      const idx = (activeIndex + offset) % rotatingProjects.length;
+      return rotatingProjects[idx];
+    });
+  }, [activeIndex, rotatingProjects]);
 
   const current = useMemo(
     () => (openProject ? CATEGORIES[openProject.cat].projects[openProject.idx] : null),
@@ -403,95 +442,94 @@ export default function Projects() {
   );
 
   return (
-    <section id="projects" className="min-h-screen pt-28 sm:pt-32 px-4 sm:px-6 pb-16 section-top">
-      <div className="mx-auto max-w-5xl">
+    <section id="projects" className="pt-28 sm:pt-32 px-4 sm:px-8 lg:px-12 pb-16 section-top">
+      <div className="w-full">
         <h2 className="section-title text-3xl sm:text-4xl mb-10 text-center">
           <span className="section-title-accent">Projects</span>
         </h2>
 
-        {/* ===== Level 1: FOUR BIG HERO BOXES ===== */}
-        <div className="grid md:grid-cols-2 gap-6">
-          {CATEGORIES.map((cat, i) => (
-            <button
-              key={i}
-              onClick={() => setOpenCategory(i)}
-              className="relative group rounded-3xl overflow-hidden h-44 md:h-56 text-left
-                         ring-1 ring-white/10 bg-gray-900/70 shadow-lg hover:shadow-teal-400/20
-                         transition transform hover:-translate-y-1 card-glow"
-            >
-              {cat.heroImg ? (
-                <Image
-                  src={cat.heroImg}
-                  alt={`${cat.name} background`}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  className="object-cover opacity-40 group-hover:opacity-50 transition"
-                  priority={i < 2}
-                />
-              ) : (
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_10%_10%,rgba(45,212,191,.2),transparent_40%),radial-gradient(circle_at_90%_90%,rgba(59,130,246,.18),transparent_45%)]" />
-              )}
-              <div className="absolute inset-0 bg-gradient-to-br from-black/50 via-black/30 to-black/50" />
-              <div className="relative z-10 p-6">
-                <h3 className="text-2xl font-semibold text-white text-glow">{cat.name}</h3>
-                {cat.heroOverlayText && (
-                  <p className="mt-1 text-sm text-gray-300">{cat.heroOverlayText}</p>
-                )}
-                <p className="mt-4 text-xs text-teal-300 opacity-90">
-                  Click to explore {cat.projects.length} project{cat.projects.length > 1 ? "s" : ""}
-                </p>
-              </div>
-            </button>
-          ))}
-        </div>
-
-        {/* ===== Level 2: FULLSCREEN CATEGORY SHEET ===== */}
-        {openCategory !== null && (
-          <div className="fixed inset-0 z-50">
-            <div
-              className="absolute inset-0 bg-black/70 backdrop-blur-lg"
-              onClick={() => setOpenCategory(null)}
-            />
-            <div className="absolute inset-2 md:inset-8 rounded-3xl overflow-hidden ring-1 ring-white/10 bg-[rgba(10,15,20,0.92)]
-                            shadow-[0_40px_120px_-20px_rgba(0,0,0,0.8)]">
-              <div className="relative h-full p-6 md:p-10 overflow-y-auto">
-                <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-3xl md:text-4xl font-extrabold tracking-tight text-white text-glow">
-                    {CATEGORIES[openCategory].name}
-                  </h3>
+        {visibleProjects.length > 0 && (
+          <div className="w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
+              {visibleProjects.map((entry, idx) => {
+                const highlighted = idx === 0;
+                return (
                   <button
-                    onClick={() => setOpenCategory(null)}
-                    className="rounded-full p-3 ring-1 ring-white/10 bg-white/5 hover:bg-white/10 transition"
-                    aria-label="Close category"
+                    key={`${entry.cat}-${entry.idx}-${activeIndex}-${idx}`}
+                    onClick={() => setOpenProject({ cat: entry.cat, idx: entry.idx })}
+                    className={`group relative overflow-hidden rounded-2xl border text-left transition-all duration-500 hover:-translate-y-1 ${
+                      highlighted
+                        ? "border-blue-300 shadow-lg ring-1 ring-blue-200 hover:shadow-xl"
+                        : "border-slate-200 shadow-sm hover:shadow-lg"
+                    }`}
                   >
-                    <FaTimes />
-                  </button>
-                </div>
-
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {CATEGORIES[openCategory].projects.map((p, idx) => (
-                    <div
-                      key={idx}
-                      onClick={() => setOpenProject({ cat: openCategory, idx })}
-                      className="cursor-pointer group relative rounded-2xl bg-gray-900/70 p-5 ring-1 ring-white/10 hover:ring-teal-400/30
-                                 shadow hover:shadow-teal-400/20 transition transform hover:-translate-y-1 card-glow"
-                    >
-                      <div className="relative w-full h-36 mb-4">
-                        <Image
-                          src={p.images?.[0] || PLACEHOLDER}
-                          alt={`${p.title} preview`}
-                          fill
-                          sizes="(max-width: 1024px) 50vw, 33vw"
-                          className="object-cover rounded-lg opacity-80 group-hover:opacity-100 transition"
-                        />
+                    <div className={`relative ${highlighted ? "h-72" : "h-56"}`}>
+                      <Image
+                        src={entry.project.images?.[0] || PLACEHOLDER}
+                        alt={`${entry.project.title} preview`}
+                        fill
+                        sizes="(max-width: 1280px) 50vw, 25vw"
+                        className={`object-cover transition-transform duration-500 ${highlighted ? "scale-[1.02]" : "group-hover:scale-105"}`}
+                      />
+                      <div className={`absolute inset-0 ${highlighted ? "bg-gradient-to-t from-black/70 via-black/35 to-transparent" : "bg-gradient-to-t from-black/65 via-black/20 to-transparent"}`} />
+                      <div className="absolute inset-x-0 bottom-0 p-4">
+                        <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/80">
+                          {entry.category}
+                        </p>
+                        <div className="inline-block rounded-md bg-black/35 backdrop-blur-sm px-2.5 py-1.5">
+                          <h3 className={`text-white ${highlighted ? "text-lg font-semibold" : "text-sm font-medium"}`}>
+                            {entry.project.title}
+                          </h3>
+                        </div>
+                        {highlighted && (
+                          <p className="mt-2 text-xs text-white/85 line-clamp-2">
+                            {entry.project.subtitle}
+                          </p>
+                        )}
                       </div>
-                      <h4 className="text-lg font-semibold text-white text-glow">{p.title}</h4>
-                      {p.subtitle && <p className="text-gray-400 text-sm">{p.subtitle}</p>}
-                      {p.year && <p className="text-xs text-teal-300 mt-1">{p.year}</p>}
                     </div>
-                  ))}
-                </div>
-              </div>
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="mt-4 flex flex-wrap items-center gap-2">
+              <button
+                onClick={() => {
+                  const first = visibleProjects[0];
+                  if (first) setOpenProject({ cat: first.cat, idx: first.idx });
+                }}
+                className="rounded-md px-3 py-1.5 text-sm bg-blue-700 text-white hover:bg-blue-800 transition"
+              >
+                View Highlighted
+              </button>
+              <button
+                onClick={goPrev}
+                className="rounded-md px-3 py-1.5 text-sm bg-white ring-1 ring-slate-300 hover:bg-slate-50 transition text-slate-700"
+                aria-label="Previous project"
+              >
+                Prev
+              </button>
+              <button
+                onClick={goNext}
+                className="rounded-md px-3 py-1.5 text-sm bg-slate-900 text-white hover:bg-slate-800 transition"
+                aria-label="Next project"
+              >
+                Next
+              </button>
+            </div>
+
+            <div className="mt-3 flex items-center gap-1.5">
+              {rotatingProjects.map((entry, idx) => (
+                <button
+                  key={`${entry.cat}-${entry.idx}`}
+                  onClick={() => setActiveIndex(idx)}
+                  className={`h-2 rounded-full transition-all ${
+                    idx === activeIndex ? "w-6 bg-blue-700" : "w-2 bg-slate-300 hover:bg-slate-400"
+                  }`}
+                  aria-label={`Go to project ${idx + 1}`}
+                />
+              ))}
             </div>
           </div>
         )}
@@ -500,27 +538,26 @@ export default function Projects() {
         {current && (
           <div className="fixed inset-0 z-[60]">
             <div
-              className="absolute inset-0 bg-black/70 backdrop-blur-lg"
+              className="absolute inset-0 bg-white/60 backdrop-blur-sm"
               onClick={() => setOpenProject(null)}
             />
-            <div className="absolute inset-3 md:inset-10 rounded-3xl overflow-hidden ring-1 ring-white/10 bg-[rgba(10,15,20,0.92)]
-                            shadow-[0_40px_120px_-20px_rgba(0,0,0,0.8)]">
+            <div className="absolute inset-3 md:inset-10 rounded-3xl overflow-hidden flash-card">
               <div className="relative h-full p-6 md:p-10 overflow-y-auto">
                 {/* Header */}
                 <div className="flex items-start justify-between gap-6 mb-6">
                   <div>
-                    <h3 className="text-3xl md:text-4xl font-extrabold leading-tight tracking-tight text-white">
-                      <span className="bg-clip-text text-transparent bg-gradient-to-r from-teal-300 via-cyan-200 to-indigo-300 drop-shadow">
+                    <h3 className="text-3xl md:text-4xl font-extrabold leading-tight tracking-tight text-slate-900">
+                      <span className="bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-blue-700">
                         {current.title}
                       </span>
                     </h3>
-                    {current.subtitle && <p className="text-gray-300">{current.subtitle}</p>}
+                    {current.subtitle && <p className="text-slate-600">{current.subtitle}</p>}
                     {current.tech?.length ? (
                       <div className="mt-3 flex flex-wrap gap-2">
                         {current.tech.map((t, i) => (
                           <span
                             key={i}
-                            className="px-3 py-1 text-xs rounded-full bg-teal-400/10 text-teal-200 ring-1 ring-teal-400/30"
+                            className="px-3 py-1 text-xs rounded-full bg-blue-50 text-blue-700 ring-1 ring-blue-200"
                           >
                             {t}
                           </span>
@@ -530,7 +567,7 @@ export default function Projects() {
                   </div>
                   <button
                     onClick={() => setOpenProject(null)}
-                    className="rounded-full p-3 ring-1 ring-white/10 bg-white/5 hover:bg-white/10 transition"
+                    className="rounded-full p-3 ring-1 ring-slate-300 bg-white/80 hover:bg-white transition"
                     aria-label="Close project"
                   >
                     <FaTimes className="text-xl" />
@@ -541,58 +578,58 @@ export default function Projects() {
                   {/* Case-study section */}
                   {current.details && (
                     <section>
-                      <h4 className="text-xl font-bold text-white text-glow mb-4">Case Study</h4>
+                      <h4 className="text-xl font-bold text-slate-900 text-glow mb-4">Case Study</h4>
 
                       <div className="grid md:grid-cols-2 gap-5">
                         {current.details.problem && (
-                          <div className="relative rounded-2xl p-5 bg-white/5 ring-1 ring-white/10 card-glow">
+                          <div className="relative rounded-2xl p-5 flash-card">
                             <div className="glow-halo"></div>
-                            <div className="text-sm font-semibold uppercase tracking-wider text-teal-300/90 mb-2">
+                            <div className="text-sm font-semibold uppercase tracking-wider text-blue-700 mb-2">
                               Problem
                             </div>
-                            <p className="text-gray-100 leading-relaxed drop-shadow">
+                            <p className="text-slate-700 leading-relaxed">
                               {current.details.problem}
                             </p>
                           </div>
                         )}
                         {current.details.data && (
-                          <div className="relative rounded-2xl p-5 bg-white/5 ring-1 ring-white/10 card-glow">
+                          <div className="relative rounded-2xl p-5 flash-card">
                             <div className="glow-halo"></div>
-                            <div className="text-sm font-semibold uppercase tracking-wider text-teal-300/90 mb-2">
+                            <div className="text-sm font-semibold uppercase tracking-wider text-blue-700 mb-2">
                               Data
                             </div>
-                            <p className="text-gray-100 leading-relaxed drop-shadow">
+                            <p className="text-slate-700 leading-relaxed">
                               {current.details.data}
                             </p>
                           </div>
                         )}
                         {current.details.approach && (
-                          <div className="relative rounded-2xl p-5 bg-white/5 ring-1 ring-white/10 card-glow md:col-span-2">
+                          <div className="relative rounded-2xl p-5 flash-card md:col-span-2">
                             <div className="glow-halo"></div>
-                            <div className="text-sm font-semibold uppercase tracking-wider text-teal-300/90 mb-2">
+                            <div className="text-sm font-semibold uppercase tracking-wider text-blue-700 mb-2">
                               Approach
                             </div>
                             {Array.isArray(current.details.approach) ? (
-                              <ul className="space-y-2 text-gray-100">
+                              <ul className="space-y-2 text-slate-700">
                                 {current.details.approach.map((a, i) => (
-                                  <li key={i} className="relative pl-6 drop-shadow">
+                                  <li key={i} className="relative pl-6">
                                     <span className="absolute bullet-dot" />
                                     {a}
                                   </li>
                                 ))}
                               </ul>
                             ) : (
-                              <p className="text-gray-100 drop-shadow">{current.details.approach}</p>
+                              <p className="text-slate-700">{current.details.approach}</p>
                             )}
                           </div>
                         )}
                         {current.details.impact && (
-                          <div className="relative rounded-2xl p-5 bg-white/5 ring-1 ring-white/10 card-glow md:col-span-2">
+                          <div className="relative rounded-2xl p-5 flash-card md:col-span-2">
                             <div className="glow-halo"></div>
-                            <div className="text-sm font-semibold uppercase tracking-wider text-teal-300/90 mb-2">
+                            <div className="text-sm font-semibold uppercase tracking-wider text-blue-700 mb-2">
                               Impact
                             </div>
-                            <p className="text-gray-100 drop-shadow">{current.details.impact}</p>
+                            <p className="text-slate-700">{current.details.impact}</p>
                           </div>
                         )}
                       </div>
@@ -602,10 +639,10 @@ export default function Projects() {
                   {/* Optional highlights */}
                   {current.bullets?.length ? (
                     <section>
-                      <h4 className="text-xl font-bold text-white text-glow mb-3">Highlights</h4>
-                      <ul className="space-y-2 text-gray-100">
+                      <h4 className="text-xl font-bold text-slate-900 text-glow mb-3">Highlights</h4>
+                      <ul className="space-y-2 text-slate-700">
                         {current.bullets.map((b, i) => (
-                          <li key={i} className="relative pl-6 drop-shadow">
+                          <li key={i} className="relative pl-6">
                             <span className="absolute bullet-dot" />
                             {b}
                           </li>
@@ -619,7 +656,7 @@ export default function Projects() {
                     const galleryImgs = Array.isArray(current.images) ? current.images.slice(1) : [];
                     return galleryImgs.length ? (
                       <section>
-                        <h4 className="text-xl font-bold text-white text-glow mb-3">Gallery</h4>
+                        <h4 className="text-xl font-bold text-slate-900 text-glow mb-3">Gallery</h4>
                         <div className="grid sm:grid-cols-2 gap-4">
                           {galleryImgs.map((src, i) => (
                             <div key={i} className="relative w-full max-h-64 h-64">
@@ -628,7 +665,7 @@ export default function Projects() {
                                 alt={`gallery-${i + 1}`}
                                 fill
                                 sizes="(max-width: 1024px) 50vw, 33vw"
-                                className="object-cover rounded-xl border border-white/10"
+                                className="object-cover rounded-xl border border-slate-200"
                               />
                             </div>
                           ))}
@@ -640,10 +677,10 @@ export default function Projects() {
                   {/* Architecture (bullets + diagram) */}
                   {(current.details?.architecture?.length || current.architectureImg) ? (
                     <section>
-                      <h4 className="text-xl font-bold text-white text-glow mb-3">Architecture</h4>
+                      <h4 className="text-xl font-bold text-slate-900 text-glow mb-3">Architecture</h4>
 
                       {current.details?.architecture?.length ? (
-                        <ol className="list-decimal pl-5 mb-4 space-y-1 text-gray-100">
+                        <ol className="list-decimal pl-5 mb-4 space-y-1 text-slate-700">
                           {current.details.architecture.map((line, i) => (
                             <li key={i}>{line}</li>
                           ))}
@@ -657,7 +694,7 @@ export default function Projects() {
                             alt={`${current.title} architecture`}
                             fill
                             sizes="100vw"
-                            className="object-contain rounded-xl border border-white/10 bg-black/10"
+                            className="object-contain rounded-xl border border-slate-200 bg-white"
                           />
                         </div>
                       ) : null}
@@ -670,11 +707,11 @@ export default function Projects() {
                   {/* Report (download link) */}
                   {current?.reportUrl ? (
                     <section>
-                      <h4 className="text-xl font-bold text-white text-glow mb-3">Report</h4>
+                      <h4 className="text-xl font-bold text-slate-900 text-glow mb-3">Report</h4>
                       <a
                         href={`${current.reportUrl}${current.reportUrl.includes("?") ? "&" : "?"}download=1`}
                         download={fileNameFromUrl(current.reportUrl)}
-                        className="inline-flex items-center gap-2 mt-1 px-4 py-2 rounded-md bg-white/10 hover:bg-white/20 ring-1 ring-white/15"
+                        className="inline-flex items-center gap-2 mt-1 px-4 py-2 rounded-md bg-slate-900 text-white hover:bg-slate-800"
                         aria-label={`Download ${fileNameFromUrl(current.reportUrl)}`}
                       >
                         <FaDownload />
@@ -686,10 +723,10 @@ export default function Projects() {
                   {/* Results (images + download) */}
 {current?.details?.resultsImages?.length ? (
   <section className="mt-6">
-    <h4 className="text-xl font-bold text-white text-glow mb-3">Results</h4>
+    <h4 className="text-xl font-bold text-slate-900 text-glow mb-3">Results</h4>
 
     {current.details.resultsCaption ? (
-      <p className="text-sm text-white/70 mb-4">
+      <p className="text-sm text-slate-600 mb-4">
         {current.details.resultsCaption}
       </p>
     ) : null}
@@ -701,7 +738,7 @@ export default function Projects() {
         return (
           <figure
             key={i}
-            className="rounded-2xl overflow-hidden ring-1 ring-white/10 bg-white/5"
+            className="rounded-2xl overflow-hidden ring-1 ring-slate-200 bg-white"
           >
             <Image
               src={src}
@@ -711,12 +748,12 @@ export default function Projects() {
               className="w-full h-auto"
               priority={i === 0}
             />
-            <figcaption className="flex items-center justify-between px-3 py-2 bg-black/30">
-              <span className="text-xs text-white/70">Result {i + 1}</span>
+            <figcaption className="flex items-center justify-between px-3 py-2 bg-slate-50">
+              <span className="text-xs text-slate-600">Result {i + 1}</span>
               <a
                 href={`${src}${src.includes("?") ? "&" : "?"}download=1`}
                 download={fname}
-                className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-white/10 hover:bg-white/20 ring-1 ring-white/15 text-sm"
+                className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-white hover:bg-slate-100 ring-1 ring-slate-200 text-sm text-slate-700"
                 aria-label={`Download ${fname}`}
                 title={`Download ${fname}`}
               >
@@ -735,13 +772,13 @@ export default function Projects() {
                   {/* Links */}
                   {(current.github || current.demo) && (
                     <section>
-                      <h4 className="text-xl font-bold text-white text-glow mb-3">Links</h4>
+                      <h4 className="text-xl font-bold text-slate-900 text-glow mb-3">Links</h4>
                       <div className="flex gap-4">
                         {current.github && (
                           <a
                             href={current.github}
                             target="_blank"
-                            className="flex items-center gap-2 text-teal-300 hover:underline"
+                            className="flex items-center gap-2 text-blue-700 hover:underline"
                           >
                             <FaGithub /> GitHub
                           </a>
@@ -750,7 +787,7 @@ export default function Projects() {
                           <a
                             href={current.demo}
                             target="_blank"
-                            className="flex items-center gap-2 text-teal-300 hover:underline"
+                            className="flex items-center gap-2 text-blue-700 hover:underline"
                           >
                             <FaExternalLinkAlt /> Live Demo
                           </a>

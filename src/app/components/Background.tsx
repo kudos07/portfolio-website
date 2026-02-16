@@ -1,56 +1,11 @@
-// src/app/components/NeuronsBackground.tsx
-"use client";
-
-import { useEffect, useState } from "react";
-import Particles, { initParticlesEngine } from "@tsparticles/react";
-import { loadSlim } from "@tsparticles/slim";
-import type { ISourceOptions } from "@tsparticles/engine";
-
-const OPTIONS: ISourceOptions = {
-  background: { color: "transparent" },
-  fpsLimit: 60,
-  interactivity: {
-    events: {
-      onHover: { enable: true, mode: "repulse" },
-      resize: { enable: true },            // <-- fix: object, not boolean
-    },
-    modes: { repulse: { distance: 120, duration: 0.4 } },
-  },
-  particles: {
-    color: { value: "#14b8a6" },
-    links: {
-      enable: true,
-      color: "#14b8a6",
-      distance: 140,
-      opacity: 0.2,
-      width: 0.8,
-    },
-    move: {
-      enable: true,
-      speed: 1,
-      outModes: { default: "out" },
-    },
-    number: {
-      value: 45,
-      density: { enable: true },
-    },
-    opacity: { value: 0.35 },
-    shape: { type: "circle" },
-    size: { value: { min: 1, max: 2.5 } },
-  },
-  detectRetina: true,
-};
-
-export default function NeuronsBackground() {
-  const [ready, setReady] = useState(false);
-
-  useEffect(() => {
-    initParticlesEngine(async (engine) => {
-      await loadSlim(engine); // lightweight bundle (links/move/repulse)
-    }).then(() => setReady(true));
-  }, []);
-
-  if (!ready) return null;
-
-  return <Particles id="tsparticles" className="fixed inset-0 -z-50" options={OPTIONS} />;
+export default function Background() {
+  return (
+    <div aria-hidden className="pointer-events-none fixed inset-0 -z-50 overflow-hidden">
+      <div className="absolute inset-0 bg-canvas" />
+      <div className="absolute -top-40 left-[-14rem] h-[32rem] w-[32rem] rounded-full bg-accent-soft blur-3xl opacity-90" />
+      <div className="absolute top-[20%] right-[-16rem] h-[34rem] w-[34rem] rounded-full bg-accent-muted blur-3xl opacity-85" />
+      <div className="absolute bottom-[-10rem] left-[30%] h-[28rem] w-[28rem] rounded-full bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.10),transparent_70%)] blur-3xl" />
+      <div className="absolute inset-0 bg-noise opacity-20" />
+    </div>
+  );
 }

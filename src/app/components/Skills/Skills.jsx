@@ -2,9 +2,7 @@
 
 import { useMemo, useState } from "react";
 
-/** ================== Data ================== **/
 const SKILLS = [
-  // Languages
   { name: "Python", cat: "Languages" },
   { name: "SQL", cat: "Languages" },
   { name: "Java", cat: "Languages" },
@@ -13,44 +11,35 @@ const SKILLS = [
   { name: "C/C++", cat: "Languages" },
   { name: "NoSQL", cat: "Languages" },
   { name: "Ocaml", cat: "Languages" },
-
-  // ML & AI
-{ name: "PyTorch", cat: "ML & AI" },
-{ name: "TensorFlow", cat: "ML & AI" },
-{ name: "Keras", cat: "ML & AI" },
-{ name: "scikit-learn", cat: "ML & AI" },
-{ name: "XGBoost", cat: "ML & AI" },
-{ name: "LightGBM", cat: "ML & AI" },
-{ name: "CatBoost", cat: "ML & AI" },
-{ name: "FAISS", cat: "ML & AI" },
-{ name: "Hugging Face Transformers", cat: "ML & AI" },
-{ name: "spaCy", cat: "ML & AI" },
-{ name: "Vision Transformers (ViT)", cat: "ML & AI" },
-{ name: "Reinforcement Learning", cat: "ML & AI" },
-{ name: "Recommendation Systems", cat: "ML & AI" },
-
-  // Libraries
+  { name: "PyTorch", cat: "ML & AI" },
+  { name: "TensorFlow", cat: "ML & AI" },
+  { name: "Keras", cat: "ML & AI" },
+  { name: "scikit-learn", cat: "ML & AI" },
+  { name: "XGBoost", cat: "ML & AI" },
+  { name: "LightGBM", cat: "ML & AI" },
+  { name: "CatBoost", cat: "ML & AI" },
+  { name: "FAISS", cat: "ML & AI" },
+  { name: "Hugging Face Transformers", cat: "ML & AI" },
+  { name: "spaCy", cat: "ML & AI" },
+  { name: "Vision Transformers (ViT)", cat: "ML & AI" },
+  { name: "Reinforcement Learning", cat: "ML & AI" },
+  { name: "Recommendation Systems", cat: "ML & AI" },
   { name: "Pandas", cat: "Libraries" },
-{ name: "NumPy", cat: "Libraries" },
-{ name: "SciPy", cat: "Libraries" },
-{ name: "Statsmodels", cat: "Libraries" },
-{ name: "Seaborn", cat: "Libraries" },
-{ name: "Plotly", cat: "Libraries" },
-{ name: "NLTK", cat: "Libraries" },
-{ name: "OpenCV", cat: "Libraries" },
-{ name: "Matplotlib", cat: "Libraries" },
-{ name: "CUDA", cat: "Libraries" },
-{ name: "Playwright", cat: "Libraries" },
-
-
-  // Databases
+  { name: "NumPy", cat: "Libraries" },
+  { name: "SciPy", cat: "Libraries" },
+  { name: "Statsmodels", cat: "Libraries" },
+  { name: "Seaborn", cat: "Libraries" },
+  { name: "Plotly", cat: "Libraries" },
+  { name: "NLTK", cat: "Libraries" },
+  { name: "OpenCV", cat: "Libraries" },
+  { name: "Matplotlib", cat: "Libraries" },
+  { name: "CUDA", cat: "Libraries" },
+  { name: "Playwright", cat: "Libraries" },
   { name: "MySQL", cat: "Databases" },
   { name: "MongoDB", cat: "Databases" },
   { name: "Hadoop", cat: "Databases" },
   { name: "Hive", cat: "Databases" },
   { name: "BigQuery", cat: "Databases" },
-
-  // Cloud & Infra
   { name: "GCP", cat: "Cloud & Infra" },
   { name: "Azure", cat: "Cloud & Infra" },
   { name: "Docker", cat: "Cloud & Infra" },
@@ -59,15 +48,11 @@ const SKILLS = [
   { name: "Jenkins", cat: "Cloud & Infra" },
   { name: "Kafka", cat: "Cloud & Infra" },
   { name: "Spark", cat: "Cloud & Infra" },
-
-  // Analytics & Viz
   { name: "Tableau", cat: "Analytics & Viz" },
   { name: "Power BI", cat: "Analytics & Viz" },
   { name: "Excel", cat: "Analytics & Viz" },
   { name: "Grafana", cat: "Analytics & Viz" },
   { name: "Weights & Biases", cat: "Analytics & Viz" },
-
-  // Statistics
   { name: "Regression", cat: "Statistics" },
   { name: "Classification", cat: "Statistics" },
   { name: "A/B Testing", cat: "Statistics" },
@@ -77,7 +62,6 @@ const SKILLS = [
   { name: "SHAP", cat: "Statistics" },
 ];
 
-/** Categories for filter chips */
 const CATS = [
   "Languages",
   "ML & AI",
@@ -88,50 +72,39 @@ const CATS = [
   "Statistics",
 ];
 
-/** ================== Tile ================== **/
 function Tile({ name }) {
   return (
-    <div
-      className="tile flex items-center justify-center rounded-xl px-4 py-6 text-center font-semibold
-                 bg-gradient-to-br from-teal-900/20 via-cyan-900/20 to-indigo-900/20
-                 text-gray-100 hover:text-white
-                 ring-1 ring-white/10 hover:ring-teal-400/40
-                 shadow-md hover:shadow-teal-400/20
-                 transition transform hover:-translate-y-1 hover:scale-105"
-    >
-      <span className="bg-clip-text text-transparent bg-gradient-to-r from-teal-300 via-cyan-200 to-indigo-300">
-        {name}
-      </span>
+    <div className="tile bg-white ring-1 ring-slate-200 shadow-sm flex items-center justify-center rounded-xl px-4 py-6 text-center font-semibold text-slate-800 transition transform hover:-translate-y-1 hover:shadow-md">
+      <span>{name}</span>
     </div>
   );
 }
 
-/** ================== Component ================== **/
 export default function Skills() {
-  const [active, setActive] = useState(CATS[0]); // default first category
+  const [active, setActive] = useState(CATS[0]);
   const [q, setQ] = useState("");
 
   const filtered = useMemo(() => {
-    const list = SKILLS.filter(s => s.cat === active);
+    const list = SKILLS.filter((s) => s.cat === active);
     const t = q.trim().toLowerCase();
-    return t ? list.filter(s => s.name.toLowerCase().includes(t)) : list;
+    return t ? list.filter((s) => s.name.toLowerCase().includes(t)) : list;
   }, [active, q]);
 
   return (
-    <section id="skills" className="min-h-screen pt-28 sm:pt-32 px-4 sm:px-6 pb-16 section-top">
-      <div className="mx-auto max-w-5xl">
+    <section id="skills" className="pt-28 sm:pt-32 px-4 sm:px-8 lg:px-12 pb-16 section-top">
+      <div className="w-full">
         <h2 className="section-title text-3xl sm:text-4xl text-center mb-8">
           <span className="section-title-accent">Skills</span>
         </h2>
         <div className="flex flex-wrap items-center gap-2 justify-center mb-8">
-          {CATS.map(c => (
+          {CATS.map((c) => (
             <button
               key={c}
               onClick={() => setActive(c)}
               className={`px-3.5 py-1.5 rounded-xl text-sm transition ${
                 active === c
-                  ? "bg-teal-400/20 text-teal-100 ring-1 ring-teal-400/40"
-                  : "bg-white/5 text-gray-200 ring-1 ring-white/10 hover:bg-white/10"
+                  ? "bg-slate-900 text-white ring-1 ring-slate-900"
+                  : "bg-white text-slate-700 ring-1 ring-slate-200 hover:bg-slate-50"
               }`}
             >
               {c}
@@ -139,13 +112,12 @@ export default function Skills() {
           ))}
           <input
             value={q}
-            onChange={e => setQ(e.target.value)}
-            placeholder="Search a skill…"
-            className="ml-2 w-56 px-3 py-1.5 rounded-xl bg-white/5 ring-1 ring-white/10 text-gray-100 placeholder:text-gray-400 focus:outline-none"
+            onChange={(e) => setQ(e.target.value)}
+            placeholder="Search a skill..."
+            className="ml-2 w-56 px-3 py-1.5 rounded-xl bg-white ring-1 ring-slate-200 hover:ring-slate-300 text-slate-800 placeholder:text-slate-400 focus:outline-none"
           />
         </div>
 
-        {/* Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
           {filtered.map((s) => (
             <Tile key={s.name} name={s.name} />

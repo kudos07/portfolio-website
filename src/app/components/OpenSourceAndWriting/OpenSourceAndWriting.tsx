@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Contact from "../Contact/Contact";
 
 interface CardItem {
   title: string;
@@ -9,27 +10,38 @@ interface CardItem {
 
 const openSource: CardItem[] = [
   {
-    title: "Haystack Core Integrations (deepset-ai)",
-    description:
-      "Two merged PRs: (1) Fixed llama-stack integration for llama-stack>=0.4.0 — updated api_base_url and CI workflow (PR #2805). (2) Stopped CI from running tests for archived Google integrations — removed workflow files and labeler refs for google-ai-haystack and google-vertex-haystack (PR #2802).",
+    title: "Haystack PR #2841",
+    description: "Jina integration tests for embedders and ranker.",
+    link: "https://github.com/deepset-ai/haystack-core-integrations/pull/2841",
+  },
+  {
+    title: "Haystack PR #2821",
+    description: "Added run_async to LlamaCppChatGenerator.",
+    link: "https://github.com/deepset-ai/haystack-core-integrations/pull/2821",
+  },
+  {
+    title: "Haystack PR #2802",
+    description: "Removed archived Google integration workflows.",
+    link: "https://github.com/deepset-ai/haystack-core-integrations/pull/2802",
+  },
+  {
+    title: "Haystack PR #2805",
+    description: "Fixed llama-stack >=0.4.0 integration defaults.",
     link: "https://github.com/deepset-ai/haystack-core-integrations/pull/2805",
   },
   {
-    title: "Statsmodels",
-    description:
-      "Contributed documentation improvements (merged PR #9660 — clarified `Gamma` `loglike_obs` and `weights` parameterization) and currently implementing rotated copula support for enhanced tail-dependence modeling.",
+    title: "Statsmodels #9660",
+    description: "Gamma docs and weights parameterization clarification.",
     link: "https://github.com/statsmodels/statsmodels/pull/9660",
   },
   {
-    title: "Skrub",
-    description:
-      "Authored two contributions — one improving documentation and example clarity (merged), and another proposing a new `select_list` / `is_list` selector feature for list-like columns (closed after backend discussions). Both contributions deepened library understanding and informed future selector design.",
+    title: "Skrub #1670",
+    description: "Docs improvements and list-selector proposal.",
     link: "https://github.com/skrub-data/skrub/pull/1670",
   },
   {
-    title: "Outlines (dottxt-ai)",
-    description:
-      "Added parametrized Transformers smoke test for tokenizer robustness (merged PR #1814). Tests initialization and constrained generation across multiple Hugging Face checkpoints to surface tokenizer-related edge cases across models.",
+    title: "Outlines #1814",
+    description: "Parametrized Transformers tokenizer smoke tests.",
     link: "https://github.com/dottxt-ai/outlines/pull/1814",
   },
 ];
@@ -38,86 +50,97 @@ const writings: CardItem[] = [
   {
     title: "Prompt engineering was a phase, prompt design is the craft!",
     description:
-      "Published under AI Mind. Covers the shift from prompt engineering to prompt design as a disciplined creative process.",
+      "Shift from prompt engineering to prompt design as a disciplined creative process.",
     link: "https://medium.com/ai-mind-labs/prompt-engineering-was-a-phase-prompt-design-is-the-craft-8a7027ce9d06",
   },
   {
     title: "How Text Chunking Works: The Foundation of Every RAG System",
     description:
-      "10-minute technical deep dive explaining why chunking strategies determine retrieval quality in RAG pipelines.",
+      "Why chunking strategy directly affects retrieval quality in RAG pipelines.",
     link: "https://medium.com/@saranshsurana/how-text-chunking-works-the-foundation-of-every-rag-system-c162a8ad211b",
   },
   {
     title:
-      "How Do You Measure an LLM’s Intelligence? A Complete Guide to Evaluation Strategies",
+      "How Do You Measure an LLM's Intelligence? A Complete Guide to Evaluation Strategies",
     description:
-      "27-minute, 6.6 K-word guide on LLM evaluation metrics — 16 claps and 4 reader highlights.",
+      "Long-form guide to practical LLM evaluation metrics and strategies.",
     link: "https://medium.com/@saranshsurana/how-do-you-measure-an-llms-intelligence-a-complete-guide-to-evaluation-strategies-0a75a1cce3ba",
   },
 ];
 
 export default function OpenSourceAndWriting() {
   return (
-    <section
-      id="open-source"
-      className="pt-28 sm:pt-32 pb-16 px-4 sm:px-6 bg-transparent text-gray-100 flex flex-col items-center section-top"
-    >
-      <h2 className="section-title text-3xl sm:text-4xl text-center mb-10">
-        <span className="section-title-accent">Open Source & Writing</span>
-      </h2>
-      <div className="grid md:grid-cols-2 gap-8 max-w-5xl w-full">
-        {/* ---------- Open Source Section ---------- */}
-        <div>
-          <h3 className="text-2xl font-semibold mb-6">
-            Open Source Contributions
-          </h3>
-          <ul className="space-y-6">
-            {openSource.map((item, i) => (
-              <li
-                key={i}
-                className="border border-teal-400/20 bg-black/20 backdrop-blur-sm p-4 rounded-xl hover:border-teal-400/60 hover:shadow-[0_0_15px_rgba(45,212,191,0.4)] transition-all duration-300"
-              >
-                <a
-                  href={item.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <h4 className="text-xl font-semibold text-teal-400 mb-2 hover:underline">
-                    {item.title}
-                  </h4>
-                  <p className="text-gray-300">{item.description}</p>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
+    <>
+      <section
+        id="open-source"
+        className="pt-28 sm:pt-32 pb-10 px-4 sm:px-8 lg:px-12 bg-transparent text-slate-900 flex flex-col items-center section-top"
+      >
+        <div className="w-full">
+          <h2 className="section-title text-3xl sm:text-4xl text-center mb-8">
+            Open Source
+          </h2>
+          <p className="text-center text-slate-600 mb-10">
+            Selected merged contributions across Haystack, Statsmodels, Skrub, and Outlines.
+          </p>
 
-        {/* ---------- Writing Section ---------- */}
-        <div>
-          <h3 className="text-2xl font-semibold mb-6">
-            Writing & Publications
-          </h3>
-          <ul className="space-y-6">
-            {writings.map((item, i) => (
-              <li
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 place-items-center">
+            {openSource.map((item, i) => (
+              <a
                 key={i}
-                className="border border-teal-400/20 bg-black/20 backdrop-blur-sm p-4 rounded-xl hover:border-teal-400/60 hover:shadow-[0_0_15px_rgba(45,212,191,0.4)] transition-all duration-300"
+                href={item.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group h-56 w-56 rounded-full bg-white ring-1 ring-slate-300 shadow-sm p-5 flex flex-col items-center justify-center text-center hover:shadow-md hover:-translate-y-1 transition"
+                title={item.description}
               >
-                <a
-                  href={item.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <h4 className="text-xl font-semibold text-teal-400 mb-2 hover:underline">
-                    {item.title}
-                  </h4>
-                  <p className="text-gray-300">{item.description}</p>
-                </a>
-              </li>
+                <span className="text-base font-semibold text-slate-900 group-hover:text-blue-700">
+                  {item.title}
+                </span>
+                <span className="mt-2 text-xs text-slate-500 leading-snug">
+                  {item.description}
+                </span>
+              </a>
             ))}
-          </ul>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <section
+        id="writing"
+        className="pt-2 sm:pt-4 pb-16 px-4 sm:px-8 lg:px-12 bg-transparent text-slate-900 flex flex-col items-center"
+      >
+        <div className="w-full">
+          <h2 className="section-title text-3xl sm:text-4xl text-center mb-10">
+            Writing
+          </h2>
+
+          <div className="grid gap-5 lg:grid-cols-3">
+            {writings.map((item, i) => (
+              <article
+                key={i}
+                className="rounded-2xl bg-white/95 ring-1 ring-slate-200 shadow-sm hover:shadow-md transition overflow-hidden"
+              >
+                <div className="h-1.5 bg-gradient-to-r from-slate-800 to-blue-700" />
+                <div className="p-5">
+                  <p className="text-[11px] uppercase tracking-[0.2em] text-slate-500 mb-2">
+                    Medium Article
+                  </p>
+                  <a href={item.link} target="_blank" rel="noopener noreferrer">
+                    <h3 className="text-lg font-semibold text-slate-900 hover:text-blue-700 leading-snug">
+                      {item.title}
+                    </h3>
+                  </a>
+                  <p className="mt-3 text-sm text-slate-600 leading-relaxed">
+                    {item.description}
+                  </p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <Contact />
+    </>
   );
 }
