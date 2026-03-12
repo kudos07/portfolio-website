@@ -182,8 +182,8 @@ export default function Home() {
 
       <div className="h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent" aria-hidden />
 
-      <Experience />
       <Projects />
+      <Experience />
       <Skills />
       <OpenSourceAndWriting />
     </div>
