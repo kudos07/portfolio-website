@@ -120,32 +120,54 @@ export default function Home() {
           </div>
 
           <div className="min-w-0 rounded-2xl bg-white/90 ring-1 ring-slate-200 p-6 sm:p-8 shadow-sm">
-            <p className="text-xs uppercase tracking-[0.2em] text-slate-500 mb-2">About</p>
-            <h2 className="mb-4 text-3xl sm:text-4xl font-semibold text-slate-900">Data Scientist & AI Engineer</h2>
-            <p className="text-sm leading-relaxed text-slate-700 sm:text-base">
-              I build machine learning systems that move from experimentation to production.
-              My focus is on practical AI that improves decision-making, automation, and measurable business outcomes.
+            <p className="text-xs uppercase tracking-[0.2em] text-slate-500 mb-2">
+              Saransh • Data Science • AI
             </p>
-            <ul className="mt-4 space-y-2 text-sm sm:text-base text-slate-700">
-              <li>Machine Learning and Deep Learning model development</li>
-              <li>LLM, RAG, and applied Generative AI workflows</li>
-              <li>Data pipelines, experimentation, and deployment-ready systems</li>
-            </ul>
-            <a
-              href="/resume/saransh_surana_resume.pdf"
-              download
-              className="mt-5 inline-block rounded-lg bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white shadow-[0_10px_24px_rgba(15,23,42,0.2)] transition hover:bg-slate-800"
-            >
-              Download Resume
-            </a>
+            <h2 className="mb-3 text-3xl sm:text-4xl font-semibold text-slate-900">
+              I ship AI systems that actually get used.
+            </h2>
+            <p className="text-sm leading-relaxed text-slate-700 sm:text-base">
+              From messy data to deployed models – I care less about leaderboard scores and more about shipped systems
+              that move metrics for real teams.
+            </p>
+            <p className="mt-3 text-xs sm:text-sm text-slate-500">
+              Python • LLMs &amp; RAG • MLOps • Experimentation • Evaluation
+            </p>
+            <div className="mt-5 flex flex-wrap gap-3">
+              <button
+                type="button"
+                onClick={() => scrollToSection("projects")}
+                className="inline-flex items-center justify-center rounded-lg bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white shadow-[0_10px_24px_rgba(15,23,42,0.2)] transition hover:bg-slate-800"
+              >
+                View projects
+              </button>
+              <a
+                href="/resume/saransh_surana_resume.pdf"
+                download
+                className="inline-flex items-center justify-center rounded-lg bg-white px-5 py-2.5 text-sm font-semibold text-slate-900 ring-1 ring-slate-300 shadow-sm transition hover:bg-slate-50"
+              >
+                Download resume
+              </a>
+            </div>
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
               <div className="rounded-xl bg-slate-50 ring-1 ring-slate-200 p-4">
-                <h3 className="mb-2 text-xs font-semibold uppercase tracking-widest text-slate-500">Interests</h3>
-                <p className="text-sm text-slate-600">AI - ML - Deep Learning - Data Engineering - Statistics</p>
+                <h3 className="mb-1 text-xs font-semibold uppercase tracking-widest text-slate-500">
+                  What I like working on
+                </h3>
+                <ul className="space-y-1.5 text-sm text-slate-700">
+                  <li>Turning vague ideas into concrete experiments.</li>
+                  <li>Building RAG + LLM systems that don&apos;t hallucinate.</li>
+                  <li>Making dashboards and pipelines boringly reliable.</li>
+                </ul>
               </div>
               <div className="rounded-xl bg-slate-50 ring-1 ring-slate-200 p-4">
-                <h3 className="mb-2 text-xs font-semibold uppercase tracking-widest text-slate-500">Education</h3>
-                <p className="text-sm text-slate-600">M.S. Data Science - Stony Brook | B.E. ECE - Andhra University</p>
+                <h3 className="mb-1 text-xs font-semibold uppercase tracking-widest text-slate-500">
+                  Where I&apos;ve been
+                </h3>
+                <p className="text-sm text-slate-700">
+                  Ford (Data Science), Stony Brook (MS Data Science), and a handful of startups and research teams where
+                  I shipped models instead of just slide decks.
+                </p>
               </div>
             </div>
           </div>
