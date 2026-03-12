@@ -136,10 +136,10 @@ export default function Home() {
             <div className="mt-5 flex flex-wrap gap-3">
               <button
                 type="button"
-                onClick={() => scrollToSection("projects")}
+                onClick={() => scrollToSection("experience")}
                 className="inline-flex items-center justify-center rounded-lg bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white shadow-[0_10px_24px_rgba(15,23,42,0.2)] transition hover:bg-slate-800"
               >
-                View projects
+                See what I&apos;ve shipped
               </button>
               <a
                 href="/resume/saransh_surana_resume.pdf"
@@ -182,8 +182,8 @@ export default function Home() {
 
       <div className="h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent" aria-hidden />
 
-      <Projects />
       <Experience />
+      <Projects />
       <Skills />
       <OpenSourceAndWriting />
     </div>
