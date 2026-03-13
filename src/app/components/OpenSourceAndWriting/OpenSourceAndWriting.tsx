@@ -10,6 +10,11 @@ interface CardItem {
 
 const openSource: CardItem[] = [
   {
+    title: "Haystack PR #2932",
+    description: "Added SUPPORTED_MODELS to AnthropicVertexChatGenerator (Claude on Vertex AI).",
+    link: "https://github.com/deepset-ai/haystack-core-integrations/pull/2932",
+  },
+  {
     title: "Haystack PR #2841",
     description: "Jina integration tests for embedders and ranker.",
     link: "https://github.com/deepset-ai/haystack-core-integrations/pull/2841",
@@ -43,6 +48,16 @@ const openSource: CardItem[] = [
     title: "Outlines #1814",
     description: "Parametrized Transformers tokenizer smoke tests.",
     link: "https://github.com/dottxt-ai/outlines/pull/1814",
+  },
+  {
+    title: "Outlines Issue #1829",
+    description: "Tokenizer fragility: SPIECE_UNDERLINE dependency in transformers.file_utils.",
+    link: "https://github.com/dottxt-ai/outlines/issues/1829",
+  },
+  {
+    title: "Outlines Issue #1819",
+    description: "LlamaCppTokenizer: EOS masked as padding, fallback vocab truncation collisions.",
+    link: "https://github.com/dottxt-ai/outlines/issues/1819",
   },
 ];
 
