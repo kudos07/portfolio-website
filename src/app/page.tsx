@@ -141,13 +141,6 @@ export default function Home() {
               >
                 See what I&apos;ve shipped
               </button>
-              <a
-                href="/resume/saransh_surana_resume.pdf"
-                download
-                className="inline-flex items-center justify-center rounded-lg bg-white px-5 py-2.5 text-sm font-semibold text-slate-900 ring-1 ring-slate-300 shadow-sm transition hover:bg-slate-50"
-              >
-                Download resume
-              </a>
             </div>
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
               <div className="rounded-xl bg-slate-50 ring-1 ring-slate-200 p-4">

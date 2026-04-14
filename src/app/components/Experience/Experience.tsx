@@ -11,7 +11,10 @@ const EXPERIENCES = [
     bullets: [
       "Built RAG-based structured extraction with JSON Schema guardrails, lifting parse success from 78% to 96% and cutting hallucinations by 25%.",
       "Ran 50+ MLflow experiments across models, prompts, chunking, and retrieval to systematically tune extraction quality.",
-      "Shipped a FastAPI + Celery + Redis + PostgreSQL pipeline that processes 1.2–2k records/hour with under 2% timeouts and 35% fewer repeat LLM calls, plus a React + TypeScript directory UI with search and filters.",
+      "Shipped a FastAPI + Celery + Redis + PostgreSQL pipeline that processes 1.2-2k records/hour with under 2% timeouts and 35% fewer repeat LLM calls.",
+      "Stored model outputs in PostgreSQL and performed slice analysis by county and service tag to identify error patterns, prioritize fixes, and support downstream product and operational decisions.",
+      "Built production dbt models with incremental loads, snapshots, Jinja macros, tests, and documentation to monitor schema compliance and data quality across large datasets.",
+      "Partnered with business stakeholders to ship a React and TypeScript review interface for sampling and triage, and communicated quality trends and model behavior clearly to support feature planning and decision-making.",
     ],
     tech: ["Python", "RAG", "Gemini Flash", "MLflow", "FastAPI", "Celery", "Redis", "PostgreSQL", "React.js", "TypeScript"],
   },
