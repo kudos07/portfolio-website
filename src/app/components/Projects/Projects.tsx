@@ -27,6 +27,8 @@ import img9 from "./images/elbow.png"
 import img10 from "./images/plot.png"
 import img11 from "./images/forecast.png"
 import img12 from "./images/quora.png"
+import grantscoutHero from "./images/grantscout-ai.png"
+import letterfitHero from "./images/letterfit-ai.png"
 // import img9 from "./images/img4.png"
 // import img10 from "./images/img5.png"
 
@@ -273,6 +275,7 @@ data:
       {
         title: "GrantScout AI",
         subtitle: "Agentic grant discovery that ranks funding opportunities from your profile",
+        images: [grantscoutHero],
         tech: [
           "Next.js", "React", "TypeScript", "Tailwind CSS",
           "Python", "Mistral AI", "Zod"
@@ -302,6 +305,7 @@ data:
       {
         title: "LetterFit AI",
         subtitle: "Tailored tech cover letters from resume, job description, and tone presets",
+        images: [letterfitHero],
         tech: [
           "React", "Vite", "Tailwind CSS", "FastAPI",
           "Mistral AI", "PyMuPDF", "python-docx"
