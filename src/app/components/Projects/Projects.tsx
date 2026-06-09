@@ -271,6 +271,64 @@ data:
     heroOverlayText: "RAG • Agents • Multimodal Generation",
     projects: [
       {
+        title: "GrantScout AI",
+        subtitle: "Agentic grant discovery that ranks funding opportunities from your profile",
+        tech: [
+          "Next.js", "React", "TypeScript", "Tailwind CSS",
+          "Python", "Mistral AI", "Zod"
+        ],
+        details: {
+          problem:
+            "Finding grants, fellowships, and scholarships is fragmented across sources; applicants need a ranked shortlist with evidence, not a pile of search results.",
+          data:
+            "User mission brief (profile, location, status, interests) plus web sources discovered through multi-round search and page inspection.",
+          approach: [
+            "1. Next.js UI collects applicant profile, search signals, and agent settings.",
+            "2. Python pipeline plans search strategy, runs multi-round web discovery, and opens candidate pages.",
+            "3. Mistral extracts structured opportunity data (deadlines, requirements, eligibility) with evidence trails.",
+            "4. Eligibility scoring and ranking produce a shortlist with checklists, draft answers, and JSON export."
+          ],
+          impact:
+            "Delivers a goal-driven agent workflow—search, extract, score, recommend—with saved shortlists and exportable reports for faster grant applications.",
+          architecture: [
+            "Next.js UI → POST /api/run",
+            "GrantScout pipeline → web search + page reading",
+            "Mistral → structured extraction and reasoning",
+            "Ranker → eligibility scoring → decision cards + export"
+          ]
+        },
+        github: "https://github.com/kudos07/Grantscout-AI",
+      },
+      {
+        title: "LetterFit AI",
+        subtitle: "Tailored tech cover letters from resume, job description, and tone presets",
+        tech: [
+          "React", "Vite", "Tailwind CSS", "FastAPI",
+          "Mistral AI", "PyMuPDF", "python-docx"
+        ],
+        details: {
+          problem:
+            "Generic cover letters miss role-specific evidence and tone; applicants need fast, ATS-aware drafts grounded in their actual resume.",
+          data:
+            "Uploaded resume (PDF/DOCX), pasted job description, optional company name for Wikipedia/web research, and tone/length preferences.",
+          approach: [
+            "1. React + Vite frontend for resume upload, JD input, style/length selection, and editable output.",
+            "2. FastAPI backend extracts resume text, runs evidence selection, and calls Mistral for generation.",
+            "3. Five tone presets (Professional, Qualifications, Hype, Mix, Bold) with quality analysis (ATS keywords, tone score).",
+            "4. Paragraph-level regenerate, style compare, and DOCX/PDF export with browser localStorage for form state."
+          ],
+          impact:
+            "Full-stack cover letter generator with company research, evidence-backed writing, quality scoring, and export—built as a stateless MVP on Mistral AI.",
+          architecture: [
+            "React/Vite UI → FastAPI API",
+            "Resume parser (PyMuPDF, python-docx) → evidence selector",
+            "Company research (Wikipedia + web) → Mistral generation",
+            "Quality analysis → editable output → DOCX/PDF export"
+          ]
+        },
+        github: "https://github.com/kudos07/LetterFit-AI",
+      },
+      {
         title: "Meeting → Storyboard Generator",
         subtitle: "Turning meeting audio into summaries and storyboard images",
         tech: [
