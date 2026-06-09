@@ -10,6 +10,12 @@ interface CardItem {
 
 const openSource: CardItem[] = [
   {
+    title: "Haystack PR #3233",
+    description:
+      "Vespa integration with document store and keyword/embedding retrievers.",
+    link: "https://github.com/deepset-ai/haystack-core-integrations/pull/3233",
+  },
+  {
     title: "Haystack PR #2932",
     description: "Added SUPPORTED_MODELS to AnthropicVertexChatGenerator (Claude on Vertex AI).",
     link: "https://github.com/deepset-ai/haystack-core-integrations/pull/2932",
@@ -38,6 +44,17 @@ const openSource: CardItem[] = [
     title: "Statsmodels #9660",
     description: "Gamma docs and weights parameterization clarification.",
     link: "https://github.com/statsmodels/statsmodels/pull/9660",
+  },
+  {
+    title: "Skrub #2027",
+    description: "Added has_dtype selector for column selection by dtype.",
+    link: "https://github.com/skrub-data/skrub/pull/2027",
+  },
+  {
+    title: "Skrub #1975",
+    description:
+      "Advanced tabular_pipeline guide examples for custom pipelines.",
+    link: "https://github.com/skrub-data/skrub/pull/1975",
   },
   {
     title: "Skrub #1670",
