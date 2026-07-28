@@ -49,9 +49,9 @@ const EXPERIENCES = [
     tech: ["Python", "scikit-learn", "Pandas", "matplotlib", "GCP", "Anomaly Detection"],
   },
   {
-    role: "Data Science Intern",
+    role: "Founding Data Scientist",
     company: "Napuor",
-    duration: "Aug 2022 - Jan 2023",
+    duration: "Mar 2022 - Aug 2023",
     location: "Banaglore, KA, India",
     bullets: [
       "Deployed XGBoost demand-forecasting models on GCP with FastAPI and Docker, reducing forecast error by 18% across 30+ SKUs.",
