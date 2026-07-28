@@ -4,9 +4,17 @@ import { FaChevronDown } from "react-icons/fa";
 
 const EXPERIENCES = [
   {
+    role: "AI Engineer",
+    company: "Coupa",
+    duration: "Jul 2026 - Present",
+    location: "Bangalore, KA, India",
+    bullets: [],
+    tech: [],
+  },
+  {
     role: "AI Software Research Volunteer",
     company: "Schizophrenia & Psychosis Action Alliance",
-    duration: "Jul 2025 - Present",
+    duration: "Jul 2025 - Jun 2026",
     location: "Remote, US",
     bullets: [
       "Built RAG-based structured extraction with JSON Schema guardrails, lifting parse success from 78% to 96% and cutting hallucinations by 25%.",
@@ -99,11 +107,15 @@ export default function Experience() {
                 className={`overflow-hidden transition-all duration-500 ${openIndex === i ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"}`}
               >
                 <div className="p-5 pt-0">
-                  <ul className="list-disc list-inside text-slate-700 space-y-2">
-                    {exp.bullets.map((b, idx) => (
-                      <li key={idx}>{b}</li>
-                    ))}
-                  </ul>
+                  {exp.bullets.length > 0 ? (
+                    <ul className="list-disc list-inside text-slate-700 space-y-2">
+                      {exp.bullets.map((b, idx) => (
+                        <li key={idx}>{b}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-sm text-slate-500 italic">Early in role — details coming soon.</p>
+                  )}
                   {exp.tech?.length > 0 && (
                     <div className="mt-4 flex flex-wrap gap-2">
                       {exp.tech.map((t, idx) => (

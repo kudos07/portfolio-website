@@ -158,8 +158,8 @@ export default function Home() {
                   Where I&apos;ve been
                 </h3>
                 <p className="text-sm text-slate-700">
-                  Ford (Data Science), Stony Brook (MS Data Science), and a handful of startups and research teams where
-                  I shipped models instead of just slide decks.
+                  Coupa (AI Engineer), S&amp;PAA (RAG &amp; data), Ford (Data Science), Stony Brook (MS Data Science),
+                  and startups where I shipped models instead of slide decks.
                 </p>
               </div>
             </div>
