@@ -1,12 +1,18 @@
 import type { Metadata } from "next";
-import { Sora } from "next/font/google";
+import { Instrument_Sans, Fraunces } from "next/font/google";
 import "./globals.css";
 import Background from "./components/Background";
 
-const sora = Sora({
+const instrumentSans = Instrument_Sans({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-sans",
+});
+
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-display",
 });
 
 export const metadata: Metadata = {
@@ -20,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`scroll-smooth ${sora.variable}`}>
+    <html lang="en" className={`scroll-smooth ${instrumentSans.variable} ${fraunces.variable}`}>
       <head>
         <script
           defer
@@ -28,7 +34,7 @@ export default function RootLayout({
           data-website-id="707eb819-269b-4d44-b441-cf7008915528"
         ></script>
       </head>
-      <body className="m-0 antialiased text-white">
+      <body className="m-0 antialiased text-[var(--text-main)]">
         <Background />
         {children}
       </body>

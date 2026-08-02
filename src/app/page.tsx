@@ -11,7 +11,7 @@ import Skills from "./components/Skills/Skills";
 import OpenSourceAndWriting from "./components/OpenSourceAndWriting/OpenSourceAndWriting";
 
 const NAV_ITEMS = [
-  { id: "home", label: "About me", hideOnSmall: false },
+  { id: "home", label: "About", hideOnSmall: false },
   { id: "experience", label: "Experience", hideOnSmall: false },
   { id: "projects", label: "Projects", hideOnSmall: false },
   { id: "skills", label: "Skills", hideOnSmall: false },
@@ -23,10 +23,12 @@ const NAV_ITEMS = [
 export default function Home() {
   const [showScrollHint, setShowScrollHint] = useState(true);
   const [activeSection, setActiveSection] = useState("home");
+  const [navScrolled, setNavScrolled] = useState(false);
 
   useEffect(() => {
     const onScroll = () => {
       setShowScrollHint(window.scrollY < 80);
+      setNavScrolled(window.scrollY > 24);
 
       const probe = window.scrollY + 140;
       let current = "home";
@@ -46,10 +48,10 @@ export default function Home() {
   }, []);
 
   const navBtnClass = (id: string, hideOnSmall = false) =>
-    `${hideOnSmall ? "hidden sm:inline " : ""}text-sm font-medium transition ${
+    `${hideOnSmall ? "hidden sm:inline " : ""}text-sm font-medium transition-colors ${
       activeSection === id
-        ? "text-slate-900 border-b-2 border-blue-700 pb-0.5"
-        : "text-slate-600 hover:text-blue-700"
+        ? "text-[var(--text-main)] border-b border-[var(--accent)] pb-0.5"
+        : "text-[var(--text-soft)] hover:text-[var(--accent)]"
     }`;
 
   const scrollToSection = (id: string) => {
@@ -61,19 +63,21 @@ export default function Home() {
     const el = document.getElementById(id);
     if (el) {
       el.scrollIntoView({ behavior: "smooth", block: "start" });
-    } else {
-      console.warn(`Section with ID '${id}' not found`);
     }
   };
 
   return (
-    <div className="relative min-h-screen text-slate-900 overflow-x-hidden">
-      <nav className="fixed top-0 left-0 right-0 z-20 flex flex-wrap items-center justify-between gap-4 border-b border-slate-900/10 bg-white/90 px-4 py-4 text-slate-900 backdrop-blur-xl shadow-[0_8px_24px_rgba(15,23,42,0.06)] sm:px-8 lg:px-12">
+    <div className="relative min-h-screen overflow-x-hidden text-[var(--text-main)]">
+      <nav
+        className={`fixed top-0 left-0 right-0 z-20 flex flex-wrap items-center justify-between gap-4 border-b px-4 py-3.5 sm:px-8 lg:px-12 transition-all duration-300 ${
+          navScrolled
+            ? "border-[var(--line-soft)] bg-[var(--bg-1)]/90 backdrop-blur-md"
+            : "border-transparent bg-transparent"
+        }`}
+      >
         <button
           onClick={() => scrollToSection("home")}
-          className={`text-base font-semibold tracking-tight transition ${
-            activeSection === "home" ? "text-slate-900" : "text-slate-900 hover:text-blue-700"
-          }`}
+          className="font-display text-base font-semibold tracking-tight text-[var(--text-main)] transition hover:text-[var(--accent)]"
         >
           Saransh Surana
         </button>
@@ -93,87 +97,82 @@ export default function Home() {
 
       <section
         id="home"
-        className="relative z-10 flex flex-col items-center justify-center px-4 pt-24 pb-12 sm:px-8 lg:px-12 sm:pt-28 sm:pb-14"
+        className="relative z-10 min-h-[100svh] px-4 pt-24 pb-16 sm:px-8 lg:px-12 sm:pt-28 sm:pb-20"
       >
-        <div className="grid w-full gap-8 lg:grid-cols-[320px_1fr]">
-          <div className="rounded-2xl bg-white/90 ring-1 ring-slate-200 p-6 shadow-sm flex flex-col items-center text-center">
-            <Image
-              src="/profile.png"
-              alt="Saransh Surana"
-              width={220}
-              height={220}
-              className="h-52 w-52 rounded-full border-2 border-blue-200 object-cover shadow-2xl shadow-slate-900/10 sm:h-56 sm:w-56"
-            />
-            <h1 className="mt-5 text-2xl font-bold text-slate-900">
+        <div className="mx-auto grid min-h-[calc(100svh-8rem)] w-full max-w-6xl items-stretch gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-0">
+          <div className="flex flex-col justify-center lg:pr-12">
+            <p className="animate-fade-up text-xs font-medium uppercase tracking-[0.22em] text-[var(--text-soft)]">
+              AI Engineer · Data Science · ML
+            </p>
+            <h1 className="animate-fade-up-delay font-display mt-4 text-5xl font-medium leading-[1.05] tracking-tight text-[var(--text-main)] sm:text-6xl lg:text-7xl">
               Saransh Surana
             </h1>
-            <p className="mt-1 text-sm text-slate-600">
-              Data Science - ML - AI
-            </p>
-            <div className="mt-4 flex gap-5 text-xl text-slate-500 [&>a:hover]:text-blue-700 [&>a]:transition">
-              <a href="https://github.com/kudos07" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><FaGithub /></a>
-              <a href="https://linkedin.com/in/saransh-surana" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><FaLinkedin /></a>
-              <a href="https://www.instagram.com/saransh_07rm/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><FaInstagram /></a>
-              <a href="https://www.kaggle.com/saranshsurana07" target="_blank" rel="noopener noreferrer" aria-label="Kaggle"><SiKaggle /></a>
-              <a href="https://leetcode.com/u/etiUzVdrA3/" target="_blank" rel="noopener noreferrer" aria-label="LeetCode"><SiLeetcode /></a>
-            </div>
-          </div>
-
-          <div className="min-w-0 rounded-2xl bg-white/90 ring-1 ring-slate-200 p-6 sm:p-8 shadow-sm">
-            <p className="text-xs uppercase tracking-[0.2em] text-slate-500 mb-2">
-              Saransh • Data Science • AI
-            </p>
-            <h2 className="mb-3 text-3xl sm:text-4xl font-semibold text-slate-900">
+            <p className="animate-fade-up-delay mt-5 max-w-lg text-xl font-medium leading-snug text-[var(--text-main)] sm:text-2xl">
               I ship AI systems that actually get used.
-            </h2>
-            <p className="text-sm leading-relaxed text-slate-700 sm:text-base">
-              From messy data to deployed models – I care less about leaderboard scores and more about shipped systems
-              that move metrics for real teams.
             </p>
-            <p className="mt-3 text-xs sm:text-sm text-slate-500">
-              Python • LLMs &amp; RAG • MLOps • Experimentation • Evaluation
+            <p className="animate-fade-up-delay-2 mt-4 max-w-md text-base leading-relaxed text-[var(--text-soft)]">
+              From messy data to deployed models — shipped systems that move metrics for real teams.
+              Coupa · S&amp;PAA · Ford · Stony Brook.
             </p>
-            <div className="mt-5 flex flex-wrap gap-3">
+
+            <div className="animate-fade-up-delay-2 mt-8 flex flex-wrap items-center gap-3">
               <button
                 type="button"
                 onClick={() => scrollToSection("experience")}
-                className="inline-flex items-center justify-center rounded-lg bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white shadow-[0_10px_24px_rgba(15,23,42,0.2)] transition hover:bg-slate-800"
+                className="inline-flex items-center justify-center rounded-md bg-[var(--text-main)] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[var(--accent)]"
               >
                 See what I&apos;ve shipped
               </button>
+              <a
+                href="/resume/saransh_surana_resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center rounded-md border border-[var(--line-soft)] bg-[var(--bg-1)] px-5 py-2.5 text-sm font-semibold text-[var(--text-main)] transition hover:border-[var(--accent)] hover:text-[var(--accent)]"
+              >
+                Download resume
+              </a>
             </div>
-            <div className="mt-8 grid gap-4 sm:grid-cols-2">
-              <div className="rounded-xl bg-slate-50 ring-1 ring-slate-200 p-4">
-                <h3 className="mb-1 text-xs font-semibold uppercase tracking-widest text-slate-500">
-                  What I like working on
-                </h3>
-                <ul className="space-y-1.5 text-sm text-slate-700">
-                  <li>Turning vague ideas into concrete experiments.</li>
-                  <li>Building RAG + LLM systems that don&apos;t hallucinate.</li>
-                  <li>Making dashboards and pipelines boringly reliable.</li>
-                </ul>
-              </div>
-              <div className="rounded-xl bg-slate-50 ring-1 ring-slate-200 p-4">
-                <h3 className="mb-1 text-xs font-semibold uppercase tracking-widest text-slate-500">
-                  Where I&apos;ve been
-                </h3>
-                <p className="text-sm text-slate-700">
-                  Coupa (AI Engineer), S&amp;PAA (RAG &amp; data), Ford (Data Science), Stony Brook (MS Data Science),
-                  and startups where I shipped models instead of slide decks.
-                </p>
-              </div>
+
+            <div className="animate-fade-up-delay-2 mt-8 flex gap-5 text-lg text-[var(--text-soft)] [&>a:hover]:text-[var(--accent)] [&>a]:transition">
+              <a href="https://github.com/kudos07" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                <FaGithub />
+              </a>
+              <a href="https://linkedin.com/in/saransh-surana" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                <FaLinkedin />
+              </a>
+              <a href="https://www.instagram.com/saransh_07rm/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                <FaInstagram />
+              </a>
+              <a href="https://www.kaggle.com/saranshsurana07" target="_blank" rel="noopener noreferrer" aria-label="Kaggle">
+                <SiKaggle />
+              </a>
+              <a href="https://leetcode.com/u/etiUzVdrA3/" target="_blank" rel="noopener noreferrer" aria-label="LeetCode">
+                <SiLeetcode />
+              </a>
             </div>
+          </div>
+
+          <div className="animate-fade-in relative min-h-[22rem] overflow-hidden border border-[var(--line-soft)] bg-[var(--bg-1)] sm:min-h-[28rem] lg:min-h-full lg:border-y-0 lg:border-r-0 lg:border-l">
+            <Image
+              src="/profile.png"
+              alt="Saransh Surana"
+              fill
+              priority
+              sizes="(max-width: 1024px) 100vw, 48vw"
+              className="object-cover object-top"
+            />
           </div>
         </div>
 
         {showScrollHint && (
-          <div className="fixed bottom-6 left-1/2 z-10 -translate-x-1/2 animate-pulse text-xs font-medium tracking-wider text-slate-500" aria-hidden>
+          <div
+            className="pointer-events-none absolute bottom-6 left-1/2 -translate-x-1/2 text-[10px] font-medium uppercase tracking-[0.28em] text-[var(--text-soft)]"
+            aria-hidden
+          >
             Scroll
           </div>
         )}
       </section>
-
-      <div className="h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent" aria-hidden />
 
       <Experience />
       <Projects />

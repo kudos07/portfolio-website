@@ -76,50 +76,63 @@ const EXPERIENCES = [
 ];
 
 export default function Experience() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const toggle = (i: number) => {
     setOpenIndex(openIndex === i ? null : i);
   };
 
   return (
-    <section id="experience" className="pt-28 sm:pt-32 px-4 sm:px-6 pb-16 section-top">
-      <div className="mx-auto max-w-4xl">
-        <h2 className="section-title text-3xl sm:text-4xl mb-10 text-center">
+    <section id="experience" className="section-top px-4 pb-20 pt-24 sm:px-8 sm:pt-28 lg:px-12">
+      <div className="mx-auto max-w-3xl">
+        <h2 className="section-title reveal-title mb-12 text-center text-3xl sm:text-4xl">
           <span className="section-title-accent">Experience</span>
         </h2>
 
-        <div className="space-y-4">
+        <div className="divide-y divide-[var(--line-soft)] border-y border-[var(--line-soft)]">
           {EXPERIENCES.map((exp, i) => (
-            <div key={i} className="rounded-xl bg-white ring-1 ring-slate-200 shadow-sm hover:shadow-md transition">
-              <button className="w-full flex items-center justify-between p-5 text-left hover:bg-slate-50/70 transition-colors" onClick={() => toggle(i)}>
-                <div>
-                  <h3 className="text-xl font-semibold text-slate-900">{exp.role}</h3>
-                  <p className="text-slate-600">{exp.company}</p>
-                  <p className="text-sm text-blue-700">{exp.duration} - {exp.location}</p>
+            <div key={i}>
+              <button
+                className="flex w-full items-start justify-between gap-4 py-5 text-left transition-colors hover:bg-[var(--bg-1)]/60"
+                onClick={() => toggle(i)}
+              >
+                <div className="min-w-0">
+                  <h3 className="font-display text-lg font-medium tracking-tight text-[var(--text-main)] sm:text-xl">
+                    {exp.role}
+                  </h3>
+                  <p className="mt-0.5 text-sm text-[var(--text-soft)]">{exp.company}</p>
+                  <p className="mt-1 text-xs font-medium tracking-wide text-[var(--accent)]">
+                    {exp.duration} · {exp.location}
+                  </p>
                 </div>
                 <FaChevronDown
-                  className={`transition-transform duration-300 ${openIndex === i ? "rotate-180 text-blue-700" : "text-slate-400"}`}
+                  className={`mt-1 shrink-0 transition-transform duration-300 ${
+                    openIndex === i ? "rotate-180 text-[var(--accent)]" : "text-[var(--text-soft)]"
+                  }`}
                 />
               </button>
 
               <div
-                className={`overflow-hidden transition-all duration-500 ${openIndex === i ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"}`}
+                className={`overflow-hidden transition-all duration-500 ${
+                  openIndex === i ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
+                }`}
               >
-                <div className="p-5 pt-0">
+                <div className="pb-6 pr-8">
                   {exp.bullets.length > 0 ? (
-                    <ul className="list-disc list-inside text-slate-700 space-y-2">
+                    <ul className="list-disc space-y-2 pl-5 text-sm leading-relaxed text-[var(--text-soft)]">
                       {exp.bullets.map((b, idx) => (
                         <li key={idx}>{b}</li>
                       ))}
                     </ul>
                   ) : (
-                    <p className="text-sm text-slate-500 italic">Early in role — details coming soon.</p>
+                    <p className="text-sm italic text-[var(--text-soft)]">
+                      Early in role — details coming soon.
+                    </p>
                   )}
                   {exp.tech?.length > 0 && (
                     <div className="mt-4 flex flex-wrap gap-2">
                       {exp.tech.map((t, idx) => (
-                        <span key={idx} className="px-3 py-1 text-xs rounded-full bg-blue-50 text-blue-700 ring-1 ring-blue-200">
+                        <span key={idx} className="tag">
                           {t}
                         </span>
                       ))}

@@ -105,30 +105,30 @@ export default function OpenSourceAndWriting() {
     <>
       <section
         id="open-source"
-        className="pt-28 sm:pt-32 pb-10 px-4 sm:px-8 lg:px-12 bg-transparent text-slate-900 flex flex-col items-center section-top"
+        className="section-top flex flex-col items-center px-4 pb-12 pt-24 text-[var(--text-main)] sm:px-8 sm:pt-28 lg:px-12"
       >
-        <div className="w-full">
-          <h2 className="section-title text-3xl sm:text-4xl text-center mb-8">
-            Open Source
+        <div className="mx-auto w-full max-w-3xl">
+          <h2 className="section-title reveal-title mb-3 text-center text-3xl sm:text-4xl">
+            <span className="section-title-accent">Open Source</span>
           </h2>
-          <p className="text-center text-slate-600 mb-10">
+          <p className="mb-10 text-center text-sm text-[var(--text-soft)]">
             Selected merged contributions across Haystack, Statsmodels, Skrub, and Outlines.
           </p>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 place-items-center">
+          <div className="divide-y divide-[var(--line-soft)] border-y border-[var(--line-soft)]">
             {openSource.map((item, i) => (
               <a
                 key={i}
                 href={item.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group h-56 w-56 rounded-full bg-white ring-1 ring-slate-300 shadow-sm p-5 flex flex-col items-center justify-center text-center hover:shadow-md hover:-translate-y-1 transition"
+                className="group block py-4 transition-colors hover:bg-[var(--bg-1)]/70"
                 title={item.description}
               >
-                <span className="text-base font-semibold text-slate-900 group-hover:text-blue-700">
+                <span className="font-medium text-[var(--text-main)] group-hover:text-[var(--accent)]">
                   {item.title}
                 </span>
-                <span className="mt-2 text-xs text-slate-500 leading-snug">
+                <span className="mt-1 block text-sm leading-snug text-[var(--text-soft)]">
                   {item.description}
                 </span>
               </a>
@@ -139,33 +139,30 @@ export default function OpenSourceAndWriting() {
 
       <section
         id="writing"
-        className="pt-2 sm:pt-4 pb-16 px-4 sm:px-8 lg:px-12 bg-transparent text-slate-900 flex flex-col items-center"
+        className="flex flex-col items-center px-4 pb-16 pt-8 text-[var(--text-main)] sm:px-8 lg:px-12"
       >
-        <div className="w-full">
-          <h2 className="section-title text-3xl sm:text-4xl text-center mb-10">
-            Writing
+        <div className="mx-auto w-full max-w-5xl">
+          <h2 className="section-title reveal-title mb-10 text-center text-3xl sm:text-4xl">
+            <span className="section-title-accent">Writing</span>
           </h2>
 
-          <div className="grid gap-5 lg:grid-cols-3">
+          <div className="grid gap-6 lg:grid-cols-3">
             {writings.map((item, i) => (
               <article
                 key={i}
-                className="rounded-2xl bg-white/95 ring-1 ring-slate-200 shadow-sm hover:shadow-md transition overflow-hidden"
+                className="border border-[var(--line-soft)] bg-[var(--bg-1)] p-5 transition-colors hover:border-[var(--accent)]"
               >
-                <div className="h-1.5 bg-gradient-to-r from-slate-800 to-blue-700" />
-                <div className="p-5">
-                  <p className="text-[11px] uppercase tracking-[0.2em] text-slate-500 mb-2">
-                    Medium Article
-                  </p>
-                  <a href={item.link} target="_blank" rel="noopener noreferrer">
-                    <h3 className="text-lg font-semibold text-slate-900 hover:text-blue-700 leading-snug">
-                      {item.title}
-                    </h3>
-                  </a>
-                  <p className="mt-3 text-sm text-slate-600 leading-relaxed">
-                    {item.description}
-                  </p>
-                </div>
+                <p className="mb-2 text-[11px] uppercase tracking-[0.18em] text-[var(--text-soft)]">
+                  Medium
+                </p>
+                <a href={item.link} target="_blank" rel="noopener noreferrer">
+                  <h3 className="font-display text-lg font-medium leading-snug text-[var(--text-main)] hover:text-[var(--accent)]">
+                    {item.title}
+                  </h3>
+                </a>
+                <p className="mt-3 text-sm leading-relaxed text-[var(--text-soft)]">
+                  {item.description}
+                </p>
               </article>
             ))}
           </div>

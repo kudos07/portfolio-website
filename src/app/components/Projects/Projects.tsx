@@ -535,25 +535,25 @@ export default function Projects() {
   );
 
   return (
-    <section id="projects" className="pt-28 sm:pt-32 px-4 sm:px-8 lg:px-12 pb-16 section-top">
-      <div className="w-full">
-        <h2 className="section-title text-3xl sm:text-4xl mb-10 text-center">
+    <section id="projects" className="section-top px-4 pb-20 pt-24 sm:px-8 sm:pt-28 lg:px-12">
+      <div className="mx-auto w-full max-w-6xl">
+        <h2 className="section-title reveal-title mb-10 text-center text-3xl sm:text-4xl">
           <span className="section-title-accent">Projects</span>
         </h2>
 
         {visibleProjects.length > 0 && (
           <div className="w-full">
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
               {visibleProjects.map((entry, idx) => {
                 const highlighted = idx === 0;
                 return (
                   <button
                     key={`${entry.cat}-${entry.idx}-${activeIndex}-${idx}`}
                     onClick={() => setOpenProject({ cat: entry.cat, idx: entry.idx })}
-                    className={`group relative overflow-hidden rounded-2xl border text-left transition-all duration-500 hover:-translate-y-1 ${
+                    className={`group relative overflow-hidden border text-left transition-colors ${
                       highlighted
-                        ? "border-blue-300 shadow-lg ring-1 ring-blue-200 hover:shadow-xl"
-                        : "border-slate-200 shadow-sm hover:shadow-lg"
+                        ? "border-[var(--accent)]"
+                        : "border-[var(--line-soft)] hover:border-[var(--accent)]"
                     }`}
                   >
                     <div className={`relative ${highlighted ? "h-72" : "h-56"}`}>
@@ -562,20 +562,18 @@ export default function Projects() {
                         alt={`${entry.project.title} preview`}
                         fill
                         sizes="(max-width: 1280px) 50vw, 25vw"
-                        className={`object-cover transition-transform duration-500 ${highlighted ? "scale-[1.02]" : "group-hover:scale-105"}`}
+                        className={`object-cover transition-transform duration-500 ${highlighted ? "scale-[1.01]" : "group-hover:scale-105"}`}
                       />
                       <div className={`absolute inset-0 ${highlighted ? "bg-gradient-to-t from-black/70 via-black/35 to-transparent" : "bg-gradient-to-t from-black/65 via-black/20 to-transparent"}`} />
                       <div className="absolute inset-x-0 bottom-0 p-4">
                         <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/80">
                           {entry.category}
                         </p>
-                        <div className="inline-block rounded-md bg-black/35 backdrop-blur-sm px-2.5 py-1.5">
-                          <h3 className={`text-white ${highlighted ? "text-lg font-semibold" : "text-sm font-medium"}`}>
-                            {entry.project.title}
-                          </h3>
-                        </div>
+                        <h3 className={`text-white ${highlighted ? "text-lg font-semibold" : "text-sm font-medium"}`}>
+                          {entry.project.title}
+                        </h3>
                         {highlighted && (
-                          <p className="mt-2 text-xs text-white/85 line-clamp-2">
+                          <p className="mt-2 line-clamp-2 text-xs text-white/85">
                             {entry.project.subtitle}
                           </p>
                         )}
@@ -586,26 +584,26 @@ export default function Projects() {
               })}
             </div>
 
-            <div className="mt-4 flex flex-wrap items-center gap-2">
+            <div className="mt-5 flex flex-wrap items-center gap-2">
               <button
                 onClick={() => {
                   const first = visibleProjects[0];
                   if (first) setOpenProject({ cat: first.cat, idx: first.idx });
                 }}
-                className="rounded-md px-3 py-1.5 text-sm bg-blue-700 text-white hover:bg-blue-800 transition"
+                className="rounded-md bg-[var(--accent)] px-3 py-1.5 text-sm text-white transition hover:bg-[var(--text-main)]"
               >
                 View Highlighted
               </button>
               <button
                 onClick={goPrev}
-                className="rounded-md px-3 py-1.5 text-sm bg-white ring-1 ring-slate-300 hover:bg-slate-50 transition text-slate-700"
+                className="rounded-md border border-[var(--line-soft)] bg-[var(--bg-1)] px-3 py-1.5 text-sm text-[var(--text-soft)] transition hover:border-[var(--accent)] hover:text-[var(--accent)]"
                 aria-label="Previous project"
               >
                 Prev
               </button>
               <button
                 onClick={goNext}
-                className="rounded-md px-3 py-1.5 text-sm bg-slate-900 text-white hover:bg-slate-800 transition"
+                className="rounded-md bg-[var(--text-main)] px-3 py-1.5 text-sm text-white transition hover:bg-[var(--accent)]"
                 aria-label="Next project"
               >
                 Next
@@ -617,8 +615,8 @@ export default function Projects() {
                 <button
                   key={`${entry.cat}-${entry.idx}`}
                   onClick={() => setActiveIndex(idx)}
-                  className={`h-2 rounded-full transition-all ${
-                    idx === activeIndex ? "w-6 bg-blue-700" : "w-2 bg-slate-300 hover:bg-slate-400"
+                  className={`h-1.5 rounded-sm transition-all ${
+                    idx === activeIndex ? "w-6 bg-[var(--accent)]" : "w-2 bg-[var(--line-soft)] hover:bg-[var(--text-soft)]"
                   }`}
                   aria-label={`Go to project ${idx + 1}`}
                 />
@@ -627,31 +625,24 @@ export default function Projects() {
           </div>
         )}
 
-        {/* ===== Level 3: PROJECT MODAL ===== */}
         {current && (
           <div className="fixed inset-0 z-[60]">
             <div
-              className="absolute inset-0 bg-white/60 backdrop-blur-sm"
+              className="absolute inset-0 bg-[var(--bg-0)]/70 backdrop-blur-sm"
               onClick={() => setOpenProject(null)}
             />
-            <div className="absolute inset-3 md:inset-10 rounded-3xl overflow-hidden flash-card">
-              <div className="relative h-full p-6 md:p-10 overflow-y-auto">
-                {/* Header */}
-                <div className="flex items-start justify-between gap-6 mb-6">
+            <div className="absolute inset-3 overflow-hidden border border-[var(--line-soft)] bg-[var(--bg-1)] md:inset-10">
+              <div className="relative h-full overflow-y-auto p-6 md:p-10">
+                <div className="mb-6 flex items-start justify-between gap-6">
                   <div>
-                    <h3 className="text-3xl md:text-4xl font-extrabold leading-tight tracking-tight text-slate-900">
-                      <span className="bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-blue-700">
-                        {current.title}
-                      </span>
+                    <h3 className="font-display text-3xl font-medium leading-tight tracking-tight text-[var(--text-main)] md:text-4xl">
+                      {current.title}
                     </h3>
-                    {current.subtitle && <p className="text-slate-600">{current.subtitle}</p>}
+                    {current.subtitle && <p className="mt-1 text-[var(--text-soft)]">{current.subtitle}</p>}
                     {current.tech?.length ? (
                       <div className="mt-3 flex flex-wrap gap-2">
                         {current.tech.map((t, i) => (
-                          <span
-                            key={i}
-                            className="px-3 py-1 text-xs rounded-full bg-blue-50 text-blue-700 ring-1 ring-blue-200"
-                          >
+                          <span key={i} className="tag">
                             {t}
                           </span>
                         ))}
@@ -660,7 +651,7 @@ export default function Projects() {
                   </div>
                   <button
                     onClick={() => setOpenProject(null)}
-                    className="rounded-full p-3 ring-1 ring-slate-300 bg-white/80 hover:bg-white transition"
+                    className="rounded-md border border-[var(--line-soft)] bg-[var(--bg-1)] p-3 transition hover:border-[var(--accent)]"
                     aria-label="Close project"
                   >
                     <FaTimes className="text-xl" />
@@ -668,97 +659,71 @@ export default function Projects() {
                 </div>
 
                 <div className="space-y-10">
-                  {/* Case-study section */}
                   {current.details && (
                     <section>
-                      <h4 className="text-xl font-bold text-slate-900 text-glow mb-4">Case Study</h4>
-
-                      <div className="grid md:grid-cols-2 gap-5">
+                      <h4 className="font-display mb-4 text-xl font-medium text-[var(--text-main)]">Case Study</h4>
+                      <div className="grid gap-4 md:grid-cols-2">
                         {current.details.problem && (
-                          <div className="relative rounded-2xl p-5 flash-card">
-                            <div className="glow-halo"></div>
-                            <div className="text-sm font-semibold uppercase tracking-wider text-blue-700 mb-2">
-                              Problem
-                            </div>
-                            <p className="text-slate-700 leading-relaxed">
-                              {current.details.problem}
-                            </p>
+                          <div className="border border-[var(--line-soft)] p-5">
+                            <div className="mb-2 text-sm font-semibold uppercase tracking-wider text-[var(--accent)]">Problem</div>
+                            <p className="text-sm leading-relaxed text-[var(--text-soft)]">{current.details.problem}</p>
                           </div>
                         )}
                         {current.details.data && (
-                          <div className="relative rounded-2xl p-5 flash-card">
-                            <div className="glow-halo"></div>
-                            <div className="text-sm font-semibold uppercase tracking-wider text-blue-700 mb-2">
-                              Data
-                            </div>
-                            <p className="text-slate-700 leading-relaxed">
-                              {current.details.data}
-                            </p>
+                          <div className="border border-[var(--line-soft)] p-5">
+                            <div className="mb-2 text-sm font-semibold uppercase tracking-wider text-[var(--accent)]">Data</div>
+                            <p className="text-sm leading-relaxed text-[var(--text-soft)]">{current.details.data}</p>
                           </div>
                         )}
                         {current.details.approach && (
-                          <div className="relative rounded-2xl p-5 flash-card md:col-span-2">
-                            <div className="glow-halo"></div>
-                            <div className="text-sm font-semibold uppercase tracking-wider text-blue-700 mb-2">
-                              Approach
-                            </div>
+                          <div className="border border-[var(--line-soft)] p-5 md:col-span-2">
+                            <div className="mb-2 text-sm font-semibold uppercase tracking-wider text-[var(--accent)]">Approach</div>
                             {Array.isArray(current.details.approach) ? (
-                              <ul className="space-y-2 text-slate-700">
+                              <ul className="list-disc space-y-1.5 pl-5 text-sm leading-relaxed text-[var(--text-soft)]">
                                 {current.details.approach.map((a, i) => (
-                                  <li key={i} className="relative pl-6">
-                                    <span className="absolute bullet-dot" />
-                                    {a}
-                                  </li>
+                                  <li key={i}>{a}</li>
                                 ))}
                               </ul>
                             ) : (
-                              <p className="text-slate-700">{current.details.approach}</p>
+                              <p className="text-sm leading-relaxed text-[var(--text-soft)]">{current.details.approach}</p>
                             )}
                           </div>
                         )}
                         {current.details.impact && (
-                          <div className="relative rounded-2xl p-5 flash-card md:col-span-2">
-                            <div className="glow-halo"></div>
-                            <div className="text-sm font-semibold uppercase tracking-wider text-blue-700 mb-2">
-                              Impact
-                            </div>
-                            <p className="text-slate-700">{current.details.impact}</p>
+                          <div className="border border-[var(--line-soft)] p-5 md:col-span-2">
+                            <div className="mb-2 text-sm font-semibold uppercase tracking-wider text-[var(--accent)]">Impact</div>
+                            <p className="text-sm leading-relaxed text-[var(--text-soft)]">{current.details.impact}</p>
                           </div>
                         )}
                       </div>
                     </section>
                   )}
 
-                  {/* Optional highlights */}
                   {current.bullets?.length ? (
                     <section>
-                      <h4 className="text-xl font-bold text-slate-900 text-glow mb-3">Highlights</h4>
-                      <ul className="space-y-2 text-slate-700">
+                      <h4 className="font-display mb-3 text-xl font-medium text-[var(--text-main)]">Highlights</h4>
+                      <ul className="list-disc space-y-1.5 pl-5 text-sm text-[var(--text-soft)]">
                         {current.bullets.map((b, i) => (
-                          <li key={i} className="relative pl-6">
-                            <span className="absolute bullet-dot" />
-                            {b}
-                          </li>
+                          <li key={i}>{b}</li>
                         ))}
                       </ul>
                     </section>
                   ) : null}
 
-                  {/* Gallery (skip the first image because it's used as cover) */}
                   {(() => {
                     const galleryImgs = Array.isArray(current.images) ? current.images.slice(1) : [];
                     return galleryImgs.length ? (
                       <section>
-                        <h4 className="text-xl font-bold text-slate-900 text-glow mb-3">Gallery</h4>
-                        <div className="grid sm:grid-cols-2 gap-4">
+                        <h4 className="font-display mb-3 text-xl font-medium text-[var(--text-main)]">Gallery</h4>
+                        <div className="grid gap-4 sm:grid-cols-2">
                           {galleryImgs.map((src, i) => (
-                            <div key={i} className="relative w-full max-h-64 h-64">
+                            <div key={i} className="relative h-64 w-full max-h-64">
                               <Image
                                 src={src}
                                 alt={`gallery-${i + 1}`}
                                 fill
                                 sizes="(max-width: 1024px) 50vw, 33vw"
-                                className="object-cover rounded-xl border border-slate-200"
+                                className="border border-[var(--line-soft)] object-cover"
                               />
                             </div>
                           ))}
@@ -767,44 +732,37 @@ export default function Projects() {
                     ) : null;
                   })()}
 
-                  {/* Architecture (bullets + diagram) */}
                   {(current.details?.architecture?.length || current.architectureImg) ? (
                     <section>
-                      <h4 className="text-xl font-bold text-slate-900 text-glow mb-3">Architecture</h4>
-
+                      <h4 className="font-display mb-3 text-xl font-medium text-[var(--text-main)]">Architecture</h4>
                       {current.details?.architecture?.length ? (
-                        <ol className="list-decimal pl-5 mb-4 space-y-1 text-slate-700">
+                        <ol className="mb-4 list-decimal space-y-1 pl-5 text-sm text-[var(--text-soft)]">
                           {current.details.architecture.map((line, i) => (
                             <li key={i}>{line}</li>
                           ))}
                         </ol>
                       ) : null}
-
                       {current.architectureImg ? (
-                        <div className="relative w-full max-h-[420px] h-[420px]">
+                        <div className="relative h-[420px] w-full max-h-[420px]">
                           <Image
                             src={current.architectureImg}
                             alt={`${current.title} architecture`}
                             fill
                             sizes="100vw"
-                            className="object-contain rounded-xl border border-slate-200 bg-white"
+                            className="border border-[var(--line-soft)] bg-[var(--bg-0)] object-contain"
                           />
                         </div>
                       ) : null}
                     </section>
                   ) : null}
 
-                  
-
-
-                  {/* Report (download link) */}
                   {current?.reportUrl ? (
                     <section>
-                      <h4 className="text-xl font-bold text-slate-900 text-glow mb-3">Report</h4>
+                      <h4 className="font-display mb-3 text-xl font-medium text-[var(--text-main)]">Report</h4>
                       <a
                         href={`${current.reportUrl}${current.reportUrl.includes("?") ? "&" : "?"}download=1`}
                         download={fileNameFromUrl(current.reportUrl)}
-                        className="inline-flex items-center gap-2 mt-1 px-4 py-2 rounded-md bg-slate-900 text-white hover:bg-slate-800"
+                        className="mt-1 inline-flex items-center gap-2 rounded-md bg-[var(--text-main)] px-4 py-2 text-white hover:bg-[var(--accent)]"
                         aria-label={`Download ${fileNameFromUrl(current.reportUrl)}`}
                       >
                         <FaDownload />
@@ -813,65 +771,55 @@ export default function Projects() {
                     </section>
                   ) : null}
 
-                  {/* Results (images + download) */}
-{current?.details?.resultsImages?.length ? (
-  <section className="mt-6">
-    <h4 className="text-xl font-bold text-slate-900 text-glow mb-3">Results</h4>
+                  {current?.details?.resultsImages?.length ? (
+                    <section className="mt-6">
+                      <h4 className="font-display mb-3 text-xl font-medium text-[var(--text-main)]">Results</h4>
+                      {current.details.resultsCaption ? (
+                        <p className="mb-4 text-sm text-[var(--text-soft)]">{current.details.resultsCaption}</p>
+                      ) : null}
+                      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        {current.details.resultsImages.map((imgSrc: string | StaticImageData, i: number) => {
+                          const src = typeof imgSrc === "string" ? imgSrc : imgSrc.src;
+                          const fname = fileNameFromUrl(src) || `result_${i + 1}.png`;
+                          return (
+                            <figure key={i} className="overflow-hidden border border-[var(--line-soft)] bg-[var(--bg-1)]">
+                              <Image
+                                src={src}
+                                alt={`Result ${i + 1}`}
+                                width={1600}
+                                height={900}
+                                className="h-auto w-full"
+                                priority={i === 0}
+                              />
+                              <figcaption className="flex items-center justify-between bg-[var(--bg-0)] px-3 py-2">
+                                <span className="text-xs text-[var(--text-soft)]">Result {i + 1}</span>
+                                <a
+                                  href={`${src}${src.includes("?") ? "&" : "?"}download=1`}
+                                  download={fname}
+                                  className="inline-flex items-center gap-2 rounded-md border border-[var(--line-soft)] bg-[var(--bg-1)] px-3 py-1 text-sm text-[var(--text-soft)] hover:border-[var(--accent)] hover:text-[var(--accent)]"
+                                  aria-label={`Download ${fname}`}
+                                  title={`Download ${fname}`}
+                                >
+                                  <FaDownload />
+                                  Download
+                                </a>
+                              </figcaption>
+                            </figure>
+                          );
+                        })}
+                      </div>
+                    </section>
+                  ) : null}
 
-    {current.details.resultsCaption ? (
-      <p className="text-sm text-slate-600 mb-4">
-        {current.details.resultsCaption}
-      </p>
-    ) : null}
-
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-  {current.details.resultsImages.map((imgSrc: string | StaticImageData, i: number) => {
-    const src = typeof imgSrc === "string" ? imgSrc : imgSrc.src; // no 'any' needed
-    const fname = fileNameFromUrl(src) || `result_${i + 1}.png`;
-        return (
-          <figure
-            key={i}
-            className="rounded-2xl overflow-hidden ring-1 ring-slate-200 bg-white"
-          >
-            <Image
-              src={src}
-              alt={`Result ${i + 1}`}
-              width={1600}
-              height={900}
-              className="w-full h-auto"
-              priority={i === 0}
-            />
-            <figcaption className="flex items-center justify-between px-3 py-2 bg-slate-50">
-              <span className="text-xs text-slate-600">Result {i + 1}</span>
-              <a
-                href={`${src}${src.includes("?") ? "&" : "?"}download=1`}
-                download={fname}
-                className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-white hover:bg-slate-100 ring-1 ring-slate-200 text-sm text-slate-700"
-                aria-label={`Download ${fname}`}
-                title={`Download ${fname}`}
-              >
-                <FaDownload />
-                Download
-              </a>
-            </figcaption>
-          </figure>
-        );
-      })}
-    </div>
-  </section>
-) : null}
-
-
-                  {/* Links */}
                   {(current.github || current.demo) && (
                     <section>
-                      <h4 className="text-xl font-bold text-slate-900 text-glow mb-3">Links</h4>
+                      <h4 className="font-display mb-3 text-xl font-medium text-[var(--text-main)]">Links</h4>
                       <div className="flex gap-4">
                         {current.github && (
                           <a
                             href={current.github}
                             target="_blank"
-                            className="flex items-center gap-2 text-blue-700 hover:underline"
+                            className="flex items-center gap-2 text-[var(--accent)] hover:underline"
                           >
                             <FaGithub /> GitHub
                           </a>
@@ -880,7 +828,7 @@ export default function Projects() {
                           <a
                             href={current.demo}
                             target="_blank"
-                            className="flex items-center gap-2 text-blue-700 hover:underline"
+                            className="flex items-center gap-2 text-[var(--accent)] hover:underline"
                           >
                             <FaExternalLinkAlt /> Live Demo
                           </a>

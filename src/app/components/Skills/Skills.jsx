@@ -74,7 +74,7 @@ const CATS = [
 
 function Tile({ name }) {
   return (
-    <div className="tile bg-white ring-1 ring-slate-200 shadow-sm flex items-center justify-center rounded-xl px-4 py-6 text-center font-semibold text-slate-800 transition transform hover:-translate-y-1 hover:shadow-md">
+    <div className="tile text-sm font-medium text-[var(--text-main)]">
       <span>{name}</span>
     </div>
   );
@@ -91,20 +91,20 @@ export default function Skills() {
   }, [active, q]);
 
   return (
-    <section id="skills" className="pt-28 sm:pt-32 px-4 sm:px-8 lg:px-12 pb-16 section-top">
-      <div className="w-full">
-        <h2 className="section-title text-3xl sm:text-4xl text-center mb-8">
+    <section id="skills" className="section-top px-4 pb-20 pt-24 sm:px-8 sm:pt-28 lg:px-12">
+      <div className="mx-auto w-full max-w-6xl">
+        <h2 className="section-title reveal-title mb-10 text-center text-3xl sm:text-4xl">
           <span className="section-title-accent">Skills</span>
         </h2>
-        <div className="flex flex-wrap items-center gap-2 justify-center mb-8">
+        <div className="mb-8 flex flex-wrap items-center justify-center gap-2">
           {CATS.map((c) => (
             <button
               key={c}
               onClick={() => setActive(c)}
-              className={`px-3.5 py-1.5 rounded-xl text-sm transition ${
+              className={`rounded-md px-3 py-1.5 text-sm transition ${
                 active === c
-                  ? "bg-slate-900 text-white ring-1 ring-slate-900"
-                  : "bg-white text-slate-700 ring-1 ring-slate-200 hover:bg-slate-50"
+                  ? "bg-[var(--text-main)] text-white"
+                  : "border border-[var(--line-soft)] bg-[var(--bg-1)] text-[var(--text-soft)] hover:border-[var(--accent)] hover:text-[var(--accent)]"
               }`}
             >
               {c}
@@ -114,11 +114,11 @@ export default function Skills() {
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Search a skill..."
-            className="ml-2 w-56 px-3 py-1.5 rounded-xl bg-white ring-1 ring-slate-200 hover:ring-slate-300 text-slate-800 placeholder:text-slate-400 focus:outline-none"
+            className="ml-1 w-52 rounded-md border border-[var(--line-soft)] bg-[var(--bg-1)] px-3 py-1.5 text-sm text-[var(--text-main)] placeholder:text-[var(--text-soft)] focus:border-[var(--accent)] focus:outline-none"
           />
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {filtered.map((s) => (
             <Tile key={s.name} name={s.name} />
           ))}
