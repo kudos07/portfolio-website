@@ -29,6 +29,7 @@ import img11 from "./images/forecast.png"
 import img12 from "./images/quora.png"
 import grantscoutHero from "./images/grantscout-ai.png"
 import letterfitHero from "./images/letterfit-ai.png"
+import minijudgeHero from "./images/minijudge.png"
 // import img9 from "./images/img4.png"
 // import img10 from "./images/img5.png"
 
@@ -272,6 +273,36 @@ data:
     heroImg: llmHero,
     heroOverlayText: "RAG • Agents • Multimodal Generation",
     projects: [
+      {
+        title: "MiniJudge",
+        subtitle: "Can a 1.7B model become a reliable pairwise LLM judge? QLoRA + reliability eval, fully local",
+        images: [minijudgeHero],
+        tech: [
+          "Python", "Qwen3", "QLoRA", "PEFT", "TRL",
+          "PyTorch", "Hugging Face", "Chatbot Arena"
+        ],
+        details: {
+          problem:
+            "Paid LLM judges are expensive and opaque; small local judges often flip answers when A/B order swaps. Need measurable accuracy and reliability on consumer GPUs.",
+          data:
+            "LMSYS Chatbot Arena preference pairs, a synthetic bias suite, and optional JudgeBench — all evaluated fully locally with no paid APIs.",
+          approach: [
+            "1. Prompt-only baselines on Qwen3-0.6B and Qwen3-1.7B for pairwise A/B judging.",
+            "2. QLoRA fine-tune of the 1.7B judge on Arena preferences (4-bit, ~6–8 GB VRAM).",
+            "3. Reliability ablations: position swap + majority vote to measure consistency vs conflict.",
+            "4. Bias-suite eval and a results dashboard comparing arena accuracy, F1, conflict rate, latency, and VRAM."
+          ],
+          impact:
+            "Best Arena accuracy 60.8% with 1.7B QLoRA + swap (vs ~49.6% prompt-only); conflict rate cut from ~71% to ~39%, all on a local consumer GPU.",
+          architecture: [
+            "configs/ YAML → scripts pipeline (data → baseline → train → eval → bias)",
+            "src/minijudge → data prep, judge, QLoRA train, metrics",
+            "outputs/ experiment JSON → dashboard.html comparison table + charts",
+            "results/final → committed Arena + bias snapshots"
+          ]
+        },
+        github: "https://github.com/kudos07/minijudge",
+      },
       {
         title: "GrantScout AI",
         subtitle: "Agentic grant discovery that ranks funding opportunities from your profile",
